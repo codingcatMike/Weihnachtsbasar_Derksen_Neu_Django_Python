@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+
+    </head>
+
+<body>
+    <img style="  position: absolute; top: 20px; right: 20px; width: 80px; height: 80px; z-index: -1;
+    border-radius: 500px;" src="https://cdn.pixabay.com/photo/2023/08/16/18/40/squirrel-8194830_1280.jpg">
+    <h1>Login</h1>
+
+    <form id="loginForm">
+        <label for="benutzername">Benutzername:</label>
+        <input type="text" id="benutzername" required autocomplete="off"> <br>
+        <label for="passwort">Passwort:</label>
+        <input type="password" id="passwort" ><br>
+        <input type="submit" value="Anmelden">
+    </form>
+
+
+    <div id="error-message" class="hidden">
+        <p>Passwort oder Benutzername ist falsch. Bitte versuche es wieder oder fragen sie Mika oder Henrik :)</p>
+      </div>
+      <div style="display: flex; justify-content: center;">
+      <img style="height: 300px; display: none;" id="image" src="https://cdn.pixabay.com/photo/2023/08/16/18/48/raven-8194851_960_720.jpg">
+    </div>
+
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 50px;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 92%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    flex-basis: 80%;
+    flex-direction: column;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#error-message {
+    background-color: #ffcccc;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+    color: #ff0000;
+    padding: 10px;
+    border: 1px solid #ff0000;
+    margin-bottom: 10px;
+    flex-direction: column;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#benutzername {
+
+    display: inline-block;
+
+}
+.background {
+          position: absolute;
+            top: 20px;
+           
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            
+            z-index: -1; /* Bild in den Hintergrund verschieben */
+            border-radius: 500px;
+          }
+    </style>
+    </style>
+    <script>
+        function showImage() {
+    
+            const img = document.getElementById('image');
+            img.style.display = 'block'; // Bild anzeigen
+
+            // Bild nach 2 Sekunden ausblenden
+            setTimeout(() => {
+                img.style.display = 'none'; // Bild ausblenden
+            }, 2000);
+        }
+
+
+        // Benutzerdaten
+        const benutzer = [
+    { benutzername: "cassa", passwort: "dollars", rolle: "cassa" },
+    { benutzername: "TEST", passwort: "", rolle: "Platzchenshop" },   
+    { benutzername: "Shop1", passwort: "1", rolle: "Shop1" },
+    { benutzername: "Shop2", passwort: "2", rolle: "Shop2" },
+    { benutzername: "Shop3", passwort: "3", rolle: "Shop3" },
+    { benutzername: "Shop4", passwort: "4", rolle: "Shop4" },
+    { benutzername: "Shop5", passwort: "5", rolle: "Shop5" },
+    { benutzername: "Shop6", passwort: "6", rolle: "Shop6" },
+    { benutzername: "Shop7", passwort: "7", rolle: "Shop7" },
+    { benutzername: "Hans", passwort: "Gunter", rolle: "Gunterhans" },
+
+  ];
+
+
+
+  
+  // Funktion zum Überprüfen des Logins
+  function login() {
+    // Eingabe des Benutzernamens und des Passworts durch den Benutzer
+    const benutzernameEingabe = document.getElementById("benutzername").value;
+    const passwortEingabe = document.getElementById("passwort").value;
+  
+    // Überprüfung der Eingaben
+    const benutzerdaten = benutzer.find(benutzer => benutzer.benutzername === benutzernameEingabe && benutzer.passwort === passwortEingabe);
+  
+    if (benutzerdaten) {
+      // Wenn Benutzername und Passwort korrekt sind, wird der Benutzer eingeloggt
+      
+      if (benutzerdaten.rolle === "cassa") {
+        window.location.assign("cassa"); // Weiterleitung zur cassa-Seite
+      } else {
+        window.location.assign("Testshop"); // Weiterleitung zur allgemeinen Startseite
+      }
+
+
+if (benutzerdaten.benutzername === "KakaoShop") {
+
+alert("hi")
+
+}
+
+    } else {
+      
+        showImage();
+      
+      // Andernfalls wird eine Fehlermeldung angezeigt
+      console.log("Ungültige Anmeldedaten!");
+     
+
+
+       document.getElementById('error-message').classList.remove('hidden');
+
+       setTimeout(function(){
+        document.getElementById('error-message').classList.add('hidden');
+       },5000);
+       
+     
+
+
+    }
+  }
+  
+  // Beispiel für die Verwendung von HTML-Formularelementen
+  document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Verhindert das automatische Absenden des Formulars
+    login(); // Ruft die Login-Funktion auf
+  });
+    </script>
+</body>
+
+</html>

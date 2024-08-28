@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+    </head>
+
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="benutzername">Benutzername:</label>
+        <input type="text" id="benutzername" required autocomplete="off"> <br>
+        <label for="passwort">Passwort:</label>
+        <input type="password" id="passwort" required><br>
+        <input type="submit" value="Anmelden">
+    </form>
+
+
+    <div id="error-message" class="hidden">
+        <p>Es wurde ein falsches Passwort eingegeben. Bitte versuchen Sie es erneut.</p>
+      </div>
+
+
+
+    <script src="login.js"></script>
+</body>
+
+</html>
