@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="History">
+    <meta name="keywords" content="HTML, CSS, JavaScript, website">
+    <meta name="author" content="Henrik">
+    <title>My Awesome Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow: hidden; /* Prevent scrolling until authenticated */
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        main {
+            padding: 20px;
+            display: none; /* Hide main content initially */
+        }
+        footer {
+            background-color: #ff0000;
+            color: rgb(0, 0, 0);
+            text-alrgb(255, 0, 0)center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1001; /* Make sure modal is above everything else */
+        }
+        .login-container input[type="password"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .login-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #333;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #555;
+        }
+        .error-message {
+            color: red;
+            margin: 10px 0;
+        }
+        /* Overlay style to cover the entire page */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 1000; /* Just below the modal */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ADMIN: HISTORY</h1>
+    </header>
+
+    <nav>
+        <a href="http://localhost:8000/!">Produkte</a>
+        <a href="http://localhost:8000">Login</a>
+        <a href="http://localhost:8000/!sys">HELP</a>
+        <a href="http://localhost:8000/cassa">Kasse</a>
+    </nav>
+
+    <main>
+        <h2>HISTORY:</h2>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </main>
+
+    <footer>
+        <h1>ADMIN ONLY!</h1>
+    </footer>
+
+    <!-- Overlay for blocking interaction -->
+    <div class="overlay" id="overlay">
+        <div class="login-container" id="login-modal">
+            <h2>Login</h2>
+            <div class="error-message" id="error-message"></div>
+            <input type="password" id="password" placeholder="Enter password">
+            <button onclick="checkPassword()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        const correctPassword = "mypassword"; // Set your password here
+
+        function checkPassword() {
+            const enteredPassword = document.getElementById("password").value;
+            const errorMessage = document.getElementById("error-message");
+            
+            if (enteredPassword === correctPassword) {
+                document.querySelector("main").style.display = "block";
+                document.body.style.overflow = "auto"; // Enable scrolling
+                document.getElementById("overlay").style.display = "none"; // Hide overlay
+            } else {
+                errorMessage.textContent = "Incorrect password. Please try again.";
+            }
+        }
+
+        // Initially display the login modal
+        window.onload = function() {
+            document.getElementById("overlay").style.display = "flex";
+        };
+    </script>
+
+</body>
+</html>

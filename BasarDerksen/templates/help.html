@@ -1,0 +1,151 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your website description">
+    <meta name="keywords" content="HTML, CSS, JavaScript, website">
+    <meta name="author" content="Your Name">
+    <title>Your Website Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        main {
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+  
+</head>
+<body >
+
+    <header>
+        <h1>Produktlist</h1>
+    </header>
+
+    <nav>
+        <a href="http://localhost:8000/!sys">HELP</a>
+        <a href="http://localhost:8000">Login</a>
+    </nav>
+    <div style="padding-left:30px; ">
+    <main>
+        <h3>PRODUKTNAME, Produktnummer , Preis</h3>
+        <h3>------SHOP 1-----------</h3>
+{% for item in all_items %}
+    {% if item.shop == 'Shop1' %}
+        <div class="ELEMENT" data-item-id="{{ item.id }}">
+            <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+        </div>
+    {% endif %}
+{% endfor %}
+
+       
+        <h3>-------SHOP 2---------</h3>
+        {% for item in all_items %}
+        {% if item.shop == 'Shop2' %}
+            <div class="ELEMENT" data-item-id="{{ item.id }}">
+                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+        <h3>-------SHOP 3---------</h3>
+        {% for item in all_items %}
+        {% if item.shop == 'Shop3' %}
+            <div class="ELEMENT" data-item-id="{{ item.id }}">
+                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+        <h3>-------SHOP 4---------</h3>
+        {% for item in all_items %}
+        {% if item.shop == 'Shop4' %}
+            <div class="ELEMENT" data-item-id="{{ item.id }}">
+                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+        <h3>-------SHOP 5---------</h3>
+        {% for item in all_items %}
+        {% if item.shop == 'Shop5' %}
+            <div class="ELEMENT" data-item-id="{{ item.id }}">
+                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+        <h3>-------SHOP 6---------</h3>
+        <p>Produkt1  , 1 , XX€</p>
+        <p>Produkt1  , 2 , XX€</p>
+        <p>Produkt1  , 3 , XX€</p>
+        <p>Produkt1  , 4 , XX€</p>
+        <p>Produkt1  , 1 , XX€</p>
+        <h3>-------SHOP 7---------</h3>
+        <p>Produkt1  , 1 , XX€</p>
+        <p>Produkt1  , 2 , XX€</p>
+        <p>Produkt1  , 3 , XX€</p>
+        <p>Produkt1  , 4 , XX€</p>
+        <p>Produkt1  , 1 , XX€</p>
+        <h3>-------SHOP 8---------</h3>
+        <p>Produkt1  , 1 , XX€</p>
+        <p>Produkt1  , 2 , XX€</p>
+        <p>Produkt1  , 3 , XX€</p>
+        <p>Produkt1  , 4 , XX€</p>
+        <p>Produkt1  , 1 , XX€</p>
+        <h3>-------SHOP 9---------</h3>
+        <p>Produkt1  , 1 , XX€</p>
+        <p>Produkt1  , 2 , XX€</p>
+        <p>Produkt1  , 3 , XX€</p>
+        <p>Produkt1  , 4 , XX€</p>
+        <p>Produkt1  , 1 , XX€</p>
+        <h3>-------SHOP 10--------</h3>
+        <p>Produkt1  , 1 , XX€</p>
+        <p>Produkt1  , 2 , XX€</p>
+        <p>Produkt1  , 3 , XX€</p>
+        <p>Produkt1  , 4 , XX€</p>
+        <p>Produkt1  , 1 , XX€</p>
+        <br>
+        <br>
+        <br>
+        <div id="head"><h1></h1></div>
+    </main>
+    <script src="BasarDerksen\templates\PlätzchenShop.html">
+ 
+    </script>
+    </div>
+    <footer>
+        <h3>BEI WEITEREN FRAGEN DRÜCK AUF "HELP" (GANZ OBEN)</h3>
+    </footer>
+
+</body>
+</html>

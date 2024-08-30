@@ -1,57 +1,182 @@
-<!DOCTYPE html>
-<html>
-  <head>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>???</title>
     <style>
-      #popup-container {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #ff0000;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      }
-      
-      #popup-container.show {
-        display: block;
-      }
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s;
+        }
+
+        /* Style for the alert-style modal */
+        #loginModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        #loginModalContent {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            display: block;
+            border: 1px solid #ccc;
+        }
+
+        #submitBtn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #submitBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #popup-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff0000;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+
+        #popup-container.show {
+            display: block;
+        }
+
+        #image {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+        }
     </style>
-  </head>
-  <body>
-    <button id="play-deo">¿¿¿</button>
-    <button id="play-video">???</button>
-    <button id="play-deo">¿¿¿</button>
-    <div id="popup-container">
-      <iframe id="youtube-iframe" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+</head>
+<body>
+
+<!-- Custom alert-style login modal -->
+<div id="loginModal">
+    <div id="loginModalContent">
+        <p>Bidde ma Passwort und Name.</p>
+        <p>TIPP:<a href="http://localhost:8000/help">HELP</a>
+        <input type="text" id="username" placeholder="Name">
+        <input type="password" id="password" placeholder="Passwort">
+        <button id="submitBtn">Login</button>
     </div>
-    
-    <script>
-        const playVideoButton = document.getElementById('play-video');
-        const popupContainer = document.getElementById('popup-container');
-        const youtubeIframe = document.getElementById('youtube-iframe');
+</div>
+
+<!-- Main content -->
+<button id="play-video" style="display:none;">???</button>
+
+<div id="popup-container">
+    <iframe id="youtube-iframe" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<div id="image"></div>
+
+<script>
+    // Function to display the custom alert-style login modal
+    function showLoginModal() {
+        document.getElementById('loginModal').style.display = 'block';
+    }
+
+    // Function to handle the login process
+    function handleLogin() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        // Basic login validation
+        if (username === "Talahon" && password === "in Frankfurth") { // Replace with your own validation logic
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('play-video').style.display = 'block';
+        } else {
+            alert("Das is es nicht... Versuchs später du Unterstuhlsee-Tiefseetaucherglockenheinie!");
+        }
+    }
+
+    // Event listener for the login button
+    document.getElementById('submitBtn').addEventListener('click', handleLogin);
+
+    // Show the login modal when the page loads
+    window.onload = showLoginModal;
+    const playVideoButton = document.getElementById('play-video');
+    const popupContainer = document.getElementById('popup-container');
+    const youtubeIframe = document.getElementById('youtube-iframe');
+    const imageDiv = document.getElementById('image');
+
+    playVideoButton.addEventListener('click', () => {
+        alert('DAS WAR EIN FEHLER...')
+        const videoId = 'Mn2dFXrsubk'; // Replace with your video ID
+        const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=1&iv_load_policy=3&showinfo=0&rel=0&modestbranding=1&widgetid=1`;
+        youtubeIframe.src = videoUrl;
+        popupContainer.classList.add('show');
         
-        playVideoButton.addEventListener('click', () => {
-          const videoId = 'Mn2dFXrsubk'; // Replace with your video ID
-          const videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=1&iv_load_policy=3&showinfo=0&rel=0&modestbranding=1&widgetid=1`;
-          youtubeIframe.src = videoUrl;
-          popupContainer.classList.add('show');
-          
-          // Request fullscreen mode
-          youtubeIframe.requestFullscreen();
-        });
-      </script>
-      
-      <div id="popup-container">
-        <iframe id="youtube-iframe" width="100%" height="100%" src="" frameborder="0" allowfullscreen></iframe>
-      </div>     
-      <div id="popup-container">
-        <iframe id="youtube-iframe" width="100%" height="100%" src="" frameborder="0" allowfullscreen></iframe>
-      </div>
- 
-    
-      
-  </body>
+        // Request fullscreen mode
+        youtubeIframe.requestFullscreen();
+
+        // Start the 15-second countdown
+        setTimeout(() => {
+            const imageUrl = 'https://th.bing.com/th/id/OIP.J0CfYGbaFqrvQxXSYcWKwQHaEK?w=294&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7'; // Replace with your image link
+            imageDiv.style.backgroundImage = `url(${imageUrl})`;
+            imageDiv.style.display = 'block';
+        }, 16750);
+    });
+
+    // Function to change the background color using RGB values
+    function changeBackgroundColor() {
+        const colors = [
+            'rgb(255, 0, 0)',   // Red
+            'rgb(255, 127, 0)', // Orange
+            'rgb(255, 255, 0)', // Yellow
+            'rgb(0, 255, 0)',   // Green
+            'rgb(0, 0, 255)',   // Blue
+            'rgb(75, 0, 130)',  // Indigo
+            'rgb(139, 0, 255)'  // Violet
+        ];
+        let index = 0;
+
+        setInterval(() => {
+            document.body.style.backgroundColor = colors[index];
+            index = (index + 1) % colors.length;
+        }, 500); // Change color every 500 milliseconds
+    }
+
+    changeBackgroundColor();
+</script>
+
+</body>
 </html>
