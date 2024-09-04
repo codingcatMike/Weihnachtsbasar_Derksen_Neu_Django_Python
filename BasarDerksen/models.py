@@ -11,6 +11,7 @@ class ShoppingItem(models.Model):
 
 
 class products(models.Model):
-    pronumber = models.PositiveIntegerField(null=True)
+    pronumber = models.PositiveIntegerField(null=True, blank=True)
     name = models.CharField(max_length=100)
-    price = models.PositiveIntegerField(null=True)
+    shop = models.CharField(max_length=100, default='Unknown')
+    price = models.PositiveIntegerField(null=True, blank=True)

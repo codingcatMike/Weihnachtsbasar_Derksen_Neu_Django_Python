@@ -156,6 +156,7 @@ def get_total_earnings():
     return total_earnings
 from .models import products
 def TEST(request):
+
     if request.method == 'POST':
         shop = request.POST['shop']  # Kundennummer aus der Anfrage abrufen
         name = request.POST['name']  # Artikelname aus der Anfrage abrufen
@@ -178,4 +179,6 @@ def TEST(request):
             products.objects.create(shop=shop, name=name, price=price, pronumber=pronumber)
             print('new' + shop + ', ' + name + ', ' + str(price) )
     
-    return render(request, 'TESTSERVER.html')
+    
+    all_products = products.objects.all()
+    return render(request, 'TESTSERVER.html', {'all_products': all_products})
