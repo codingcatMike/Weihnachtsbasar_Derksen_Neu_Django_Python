@@ -1,0 +1,82 @@
+#Cassa {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(174, 183, 193);
+    }
+    
+    #Body {
+    
+    background-color: rgb(68, 67, 67);
+    
+    }
+    
+    #eins {
+    
+    width: 49%;
+    height: 270px;
+    }
+    
+    #zwei {
+    
+    width: 49%;
+    height: 270px;
+    margin-left: 1%;
+    }
+    
+    #drei {
+    margin-top: 1%;
+    width: 49%;
+    height: 270px;
+    
+    }
+    
+    #vier {
+    
+        margin-top: 1%;
+        width: 49%;
+        height: 270px;
+        
+    margin-left: 1%;
+    }
+    
+    :hover.Products {
+    
+    background-color: rgb(107, 161, 209);
+    
+    }
+    
+    .Products {
+    
+    background-color: rgb(174, 184, 193);
+    }
+    
+    .User {
+    
+        margin-left: 35%;
+        width: 30%;
+        margin-top: 1%;
+        height: 5%;
+    }
+    
+    .Anzumelden {
+    
+    background-color: green;
+    width: 30%;
+    height: 100px;
+    margin-left: 35%;
+    margin-top: 20%;
+    color: whitesmoke;
+    border: 4px;
+    }
+    
+    .Anzumelden:hover {
+    
+    background-color: chartreuse;
+    color: black;
+    }
+    
+    .Anzumelden:active {
+    
+    background-color: darkgreen;
+    
+    }

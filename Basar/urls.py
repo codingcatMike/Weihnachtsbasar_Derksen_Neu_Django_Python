@@ -16,19 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from BasarDerksen.views import Testshop
-from BasarDerksen.views import cassa
 from BasarDerksen import views
-from BasarDerksen.views import index
-from BasarDerksen.views import Shop_1
-from BasarDerksen.views import Shop_2
-from BasarDerksen.views import Shop_3
-from BasarDerksen.views import Shop_4
-from BasarDerksen.views import Shop_5
-from BasarDerksen.views import Shop_6
-from BasarDerksen.views import Shop_7
-from BasarDerksen.views import Gunterhans
-from BasarDerksen.views import check_for_update
+from BasarDerksen.views import * 
 
 
 
@@ -38,7 +27,7 @@ urlpatterns = [
     path('Testshop', Testshop),
     path('cassa', cassa),
     path('update-item/', views.update_item, name='update_item'),
-    path('', index, name='hompage'),
+    path('login', index, name='hompage'),
     path('Shop1', Shop_1),
     path('Shop2', Shop_2),
     path('Shop3', Shop_3),
@@ -48,5 +37,12 @@ urlpatterns = [
     path('Shop7', Shop_7),
     path('Gunterhans', Gunterhans),
     path('check-update/', check_for_update, name='check_update'),
+    path('!', help),
+    path('!sys', sys),
+    path('!Test', TEST),
+    path('', start),
+    path('info', kundeninfo),
+    path('AGB', agb),
+    path('deleteAll', delete_all_items )
 
 ]

@@ -1,3 +1,5 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +22,7 @@
     <button id="vier" class="Products" onclick="additem(this, price4)"> Produkt4</button>
     <button onclick="settingsactivate()" id="setting" style="  position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1;
     border-radius: 500px; font-size: xx-large;" >⚙️</button>
-
+    <br style="display: none;" class="inputs">
     <input id="i1" class="inputs" placeholder="Name Produkt 1" style="display: none;"> <input id="p1" class="inputs" placeholder="Preis Produkt 1" style="display: none;">
     <br>
     <input id="i2" class="inputs" placeholder="Name Produkt 2" style="display: none;"> <input id="p2" class="inputs" placeholder="Preis Produkt 2" style="display: none;">
@@ -42,6 +44,11 @@ var price1 = 1
 var price2 = 2
 var price3 = 3
 var price4 = 4
+var name1 = 'Produkt1'
+var name2 = 'Produkt2'
+var name3 = 'Produkt3'
+var name4 = 'Produkt4'
+
 window.onload = function() {
     price1 = 1
     price2 = 2
@@ -53,7 +60,12 @@ window.onload = function() {
     document.getElementById('drei').innerText ='Produkt3' + '  ||  ' + price3 + "€";
     document.getElementById('vier').innerText ='Produkt4'+ '  ||  ' + price4 + "€";
 
-alert('Please Configure your settings use the ⚙️ button an scroll down')
+    preset()
+    ausblenden()
+
+    alert('Please configure your settings use the ⚙️ button an scroll down')
+
+    
     
 };
 
@@ -80,26 +92,34 @@ function ausblenden() {
     price3 = document.getElementById('p3').value
     price4 = document.getElementById('p4').value
 
+    name1 = document.getElementById('i1').value
+    name2 = document.getElementById('i2').value
+    name3 = document.getElementById('i3').value
+    name4 = document.getElementById('i4').value
+
     document.getElementById('eins').innerText = document.getElementById('i1').value + '  ||  ' + price1 + "€";
     document.getElementById('zwei').innerText = document.getElementById('i2').value + '  ||  ' + price2 + "€";
     document.getElementById('drei').innerText = document.getElementById('i3').value + '  ||  ' + price3 + "€";
     document.getElementById('vier').innerText = document.getElementById('i4').value + '  ||  ' + price4 + "€";
-    alert('angekommen')
+    
 
 
     for (let i = 0; i < inputs.length; i++) {
             inputs[i].style.display = 'none'; // Element ausblenden
         }
 
-    additemtolist()  
+    additemtolist(name1, price1, 1)
+    additemtolist(name2, price2, 2)
+    additemtolist(name3, price3, 3)
+    additemtolist(name4, price4, 4)
 
-    function additemtolist(namebut, price) {
-    const shop = '1';
-    let namePro = 'Interessant';
-    let pricePro = 6;
+    function additemtolist(namePro, pricePro, pronumber) {
+    const shop = 'TEST'; 
+
     
     
-     
+    
+
     // FormData-Instanz erstellen
     let formData = new FormData();
     let token = '{{csrf_token}}'; // CSRF-Token
@@ -111,10 +131,11 @@ function ausblenden() {
     formData.append('shop', shop);
     formData.append('name', namePro);
     formData.append('price', pricePro);
+    formData.append('pronumber', pronumber)
     formData.append('csrfmiddlewaretoken', token);
 
     // Alert-Nachricht anzeigen
-    alert(name + " (" + pricePro + "€) wurde zum Kunden " + shop + " hinzugefügt"   );
+    alert(name + " (" + pricePro + "€) wurde zum Shop " + shop + " hinzugefügt" +  ' (' + pronumber + ')'  );
 
     // Fetch-Anfrage senden
     fetch('/!Test', {
@@ -136,6 +157,7 @@ function ausblenden() {
 }
 
 }
+
 
 
 
@@ -195,6 +217,22 @@ function E() {
     .catch(error => {
         console.error('Es gab ein Problem mit der Fetch-Anfrage:', error);
     });
+}
+
+function preset() {
+
+    document.getElementById('i1').value = 'Produkt1'
+    document.getElementById('i2').value = 'Produkt2'
+    document.getElementById('i3').value = 'Produkt3'
+    document.getElementById('i4').value = 'Produkt4'
+
+    document.getElementById('p1').value = 1
+    document.getElementById('p2').value = 2
+    document.getElementById('p3').value = 3
+    document.getElementById('p4').value = 4
+
+
+
 }
 
 

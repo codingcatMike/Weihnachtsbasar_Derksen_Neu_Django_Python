@@ -10,4 +10,7 @@ class ShoppingItem(models.Model):
     modified_at = models.DateTimeField(auto_now=True)  # add this field
 
 
-
+class products(models.Model):
+    pronumber = models.PositiveIntegerField(null=True)
+    name = models.CharField(max_length=100)
+    price = models.PositiveIntegerField(null=True)

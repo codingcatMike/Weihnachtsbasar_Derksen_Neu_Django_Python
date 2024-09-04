@@ -1,99 +1,18 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/shop.css' %}">
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<link rel="stylesheet" href="style.css">
+    
 <script src="script.js"></script>
+
 </head>
 <body id="Body">
     <h1 id="Cassa">PRODUKTE</h1>
    
-<style>
-    #Cassa {
-text-align: center;
-font-family: 'Times New Roman', Times, serif;
-color: rgb(174, 183, 193);
-}
-
-#Body {
-
-background-color: rgb(68, 67, 67);
-
-}
-
-#eins {
-
-width: 49%;
-height: 270px;
-}
-
-#zwei {
-
-width: 49%;
-height: 270px;
-margin-left: 1%;
-}
-
-#drei {
-margin-top: 1%;
-width: 49%;
-height: 270px;
-
-}
-
-#vier {
-
-    margin-top: 1%;
-    width: 49%;
-    height: 270px;
-    
-margin-left: 1%;
-}
-
-:hover.Products {
-
-background-color: rgb(107, 161, 209);
-
-}
-
-.Products {
-
-background-color: rgb(174, 184, 193);
-}
-
-.User {
-
-    margin-left: 35%;
-    width: 30%;
-    margin-top: 1%;
-    height: 5%;
-}
-
-.Anzumelden {
-
-background-color: green;
-width: 30%;
-height: 100px;
-margin-left: 35%;
-margin-top: 20%;
-color: whitesmoke;
-border: 4px;
-}
-
-.Anzumelden:hover {
-
-background-color: chartreuse;
-color: black;
-}
-
-.Anzumelden:active {
-
-background-color: darkgreen;
-
-}
-</style>
 <input  style="margin-bottom: 30px; height: 30px;" class="User" type="number" id="number" placeholder="Hier Kundennummer eingeben">
     
     <button id="eins" class="Products" onclick="additem(this, price1)">Produkt 1</button>

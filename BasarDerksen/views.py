@@ -31,6 +31,7 @@ def Testshop(request):
 
         # Debugging-Ausgabe
         print(message)
+        
 
         # JSON-Antwort zurückgeben, um die Frontend-Benachrichtigung zu ermöglichen
         return JsonResponse({'status': 'success', 'message': message})
@@ -47,7 +48,8 @@ def cassa(request):
     all_items = ShoppingItem.objects.filter(done=0)
     for item in all_items:
         print(item.number)
-    return render(request, 'cassa.html', {'all_items': all_items})
+    total_earnings = get_total_earnings()  # Call the get_total_earnings function
+    return render(request, 'cassa.html', {'all_items': all_items, 'total_earnings': total_earnings})
 
 
 
@@ -56,6 +58,7 @@ from .models import ShoppingItem
 import json
 
 def update_item(request):
+    
     if request.method == 'POST':
         data = json.loads(request.body)
         item_id = data['itemId']
@@ -65,6 +68,7 @@ def update_item(request):
         item = ShoppingItem.objects.get(id=item_id)
         item.done = 1
         item.save()
+        
 
         # Return a JSON response indicating success
         return JsonResponse({'success': True})
@@ -88,6 +92,31 @@ def Shop_7(request):
     return render(request, 'Shop7.html')
 def Gunterhans(request):
     return render(request, 'Gunterhans.html')
+def sys(request):
+    return render(request, 'syshelp.html')
+def agb(request):
+    return render(request, 'AGB.html')
+def kundeninfo(request):
+    all_items = ShoppingItem.objects.all
+    return render(request, 'kundeninfo.html', {'all_items': all_items} )
+
+
+def delete_all_items(request):
+    products.objects.all().delete()
+    ShoppingItem.objects.all().delete()
+
+
+    return HttpResponse("Alle Daten aus den Modellen 'Product' und 'ShoppingItem' wurden gelöscht.")
+    
+  
+
+def start(request):
+    return render(request, 'start.html')
+
+def help(request):
+    all_items = products.objects.all
+
+    return render(request, 'help.html', {'all_items': all_items})
 
 from django.http import JsonResponse
 
@@ -102,9 +131,16 @@ last_checked = None
 def check_for_update(request):
     global last_checked  # Verwende eine globale Variable, um den letzten Zeitstempel zu speichern
 
-    # Wenn last_checked noch None ist, initialisiere es
+    # Wenn last_checked noch None ist, prüfe, ob es ShoppingItem-Objekte gibt
     if last_checked is None:
-        last_checked = ShoppingItem.objects.latest('modified_at').modified_at
+        if ShoppingItem.objects.exists():
+            last_checked = ShoppingItem.objects.latest('modified_at').modified_at
+        else:
+            last_checked = None  # oder ein Default-Datum
+
+    # Wenn last_checked immer noch None ist, gibt es keine ShoppingItem-Objekte
+    if last_checked is None:
+        return JsonResponse({"reload": False})
 
     # Überprüfen, ob neue Daten in der Datenbank vorhanden sind
     new_items = ShoppingItem.objects.filter(modified_at__gt=last_checked)
@@ -113,3 +149,33 @@ def check_for_update(request):
         return JsonResponse({"reload": True})
 
     return JsonResponse({"reload": False})
+
+def get_total_earnings():
+    total_earnings = sum(item.price for item in ShoppingItem.objects.all())
+    print(total_earnings)
+    return total_earnings
+from .models import products
+def TEST(request):
+    if request.method == 'POST':
+        shop = request.POST['shop']  # Kundennummer aus der Anfrage abrufen
+        name = request.POST['name']  # Artikelname aus der Anfrage abrufen
+        pronumber = Decimal(request.POST['pronumber'])
+        price = Decimal(request.POST['price'])  # Preis in Decimal umwandeln
+        print('Received Data: ' + shop + ', ' + name + ', ' + str(price) + ',' + str(pronumber))
+
+        existing_item = products.objects.filter(pronumber=pronumber).first()
+
+        if existing_item:
+            # Wenn der Eintrag existiert, aktualisiere den Namen und addiere den neuen Preis
+            existing_item.price = price  # Neuen Preis zum bestehenden Preis addieren
+            existing_item.name = name
+            existing_item.shop = shop # Neuen Namen anhängen
+            existing_item.pronumber = pronumber
+            existing_item.save()  # Änderungen speichern
+            print('existing' + shop + ', ' + name + ', ' + str(price) )
+        else:
+            # Wenn kein Eintrag existiert, einen neuen erstellen
+            products.objects.create(shop=shop, name=name, price=price, pronumber=pronumber)
+            print('new' + shop + ', ' + name + ', ' + str(price) )
+    
+    return render(request, 'TESTSERVER.html')
