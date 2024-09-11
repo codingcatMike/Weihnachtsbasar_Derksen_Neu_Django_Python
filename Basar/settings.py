@@ -26,9 +26,10 @@ SECRET_KEY = 'django-insecure-2=is6k$k^jd6%12=-_j*10s^1^ddj_^o(r^ugr3bkh#04s62f)
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', '0.0.0.0', '*'
+    'localhost', '0.0.0.0', '*', '*.gitpod.io',
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://*.gitpod.io']
 
 # Application definition
 
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'BasarDerksen',
-    'django_json_widget',
+    
 
 ]
 
