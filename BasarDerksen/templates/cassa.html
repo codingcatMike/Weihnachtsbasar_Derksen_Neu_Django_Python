@@ -17,7 +17,7 @@
     {% for item in all_items %}
     <div class="ELEMENT" data-item-id="{{ item.id }}">
         <input type="checkbox">
-        {{ item.number }} - {{ item.name }} - {{ item.price }}€
+        {{ item.number }} - {{ item.name }} - &nbsp<div style="color: rgb(16, 209, 16); font-size: large; font-weight: 800;">{{ item.price }}€</div>
     </div>
     {% endfor %}
 
