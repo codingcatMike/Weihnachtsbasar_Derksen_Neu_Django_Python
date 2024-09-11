@@ -11,7 +11,7 @@
     }
     
     #eins {
-    
+    margin-top: 10px;
     width: 49%;
     height: 270px;
     }
@@ -30,14 +30,14 @@
     
     }
     
-    #vier {
+     #vier {
     
         margin-top: 1%;
-        width: 49%;
+        width: 48%;
         height: 270px;
         
     margin-left: 1%;
-    }
+    } 
     
     :hover.Products {
     
@@ -48,6 +48,7 @@
     .Products {
     
     background-color: rgb(174, 184, 193);
+    
     }
     
     .User {

@@ -106,7 +106,7 @@ def delete_all_items(request):
     ShoppingItem.objects.all().delete()
 
 
-    return HttpResponse("Alle Daten aus den Modellen 'Product' und 'ShoppingItem' wurden gelöscht.")
+    return HttpResponse("Alle Daten aus den Modellen 'Product' und 'ShoppingItem' wurden gelöscht." )
     
   
 
@@ -156,8 +156,12 @@ def get_total_earnings():
     return total_earnings
 from .models import products
 def TEST(request):
-
+    next_pronumber = None
     if request.method == 'POST':
+        if 'get_next_pronumber' in request.POST:
+            shop = request.POST['shop']
+            next_pronumber = products.objects.filter(shop=shop).count() + 1
+            
         shop = request.POST['shop']  # Kundennummer aus der Anfrage abrufen
         name = request.POST['name']  # Artikelname aus der Anfrage abrufen
         pronumber = Decimal(request.POST['pronumber'])
@@ -181,4 +185,4 @@ def TEST(request):
     
     
     all_products = products.objects.all()
-    return render(request, 'TESTSERVER.html', {'all_products': all_products})
+    return render(request, 'TESTSERVER.html', {'all_products': all_products, 'next_pronumber': next_pronumber})
