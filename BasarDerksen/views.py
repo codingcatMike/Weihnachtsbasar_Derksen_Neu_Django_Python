@@ -165,23 +165,31 @@ def TEST(request):
         shop = request.POST['shop']  # Kundennummer aus der Anfrage abrufen
         name = request.POST['name']  # Artikelname aus der Anfrage abrufen
         pronumber = Decimal(request.POST['pronumber'])
-        price = Decimal(request.POST['price'])  # Preis in Decimal umwandeln
+        if request.POST['price'] == '':
+            price = 0 
+        else:
+            price = Decimal(request.POST['price'])  # Preis in Decimal umwandeln
         print('Received Data: ' + shop + ', ' + name + ', ' + str(price) + ',' + str(pronumber))
 
-        existing_item = products.objects.filter(pronumber=pronumber).first()
-
-        if existing_item:
-            # Wenn der Eintrag existiert, aktualisiere den Namen und addiere den neuen Preis
-            existing_item.price = price  # Neuen Preis zum bestehenden Preis addieren
-            existing_item.name = name
-            existing_item.shop = shop # Neuen Namen anhängen
-            existing_item.pronumber = pronumber
-            existing_item.save()  # Änderungen speichern
-            print('existing' + shop + ', ' + name + ', ' + str(price) )
+        if name == '':  # Check if name is empty
+            # Delete the object with the corresponding pronumber
+            products.objects.filter(pronumber=pronumber).delete()
+            print('Deleted object with pronumber', pronumber)
         else:
-            # Wenn kein Eintrag existiert, einen neuen erstellen
-            products.objects.create(shop=shop, name=name, price=price, pronumber=pronumber)
-            print('new' + shop + ', ' + name + ', ' + str(price) )
+            existing_item = products.objects.filter(pronumber=pronumber).first()
+            print('debug')
+            if existing_item:
+             # Wenn der Eintrag existiert, aktualisiere den Namen und addiere den neuen Preis
+                existing_item.price = price  # Neuen Preis zum bestehenden Preis addieren
+                existing_item.name = name
+                existing_item.shop = shop # Neuen Namen anhängen
+                existing_item.pronumber = pronumber
+                existing_item.save()  # Änderungen speichern
+                print('existing' + shop + ', ' + name + ', ' + str(price) )
+            else:
+                # Wenn kein Eintrag existiert, einen neuen erstellen
+                products.objects.create(shop=shop, name=name, price=price, pronumber=pronumber)
+                print('new' + shop + ', ' + name + ', ' + str(price) )
     
     
     all_products = products.objects.all()

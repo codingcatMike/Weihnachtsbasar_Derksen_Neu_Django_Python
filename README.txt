@@ -27,4 +27,8 @@ You can copy and paste the following commands to execute them all at once:
 python -m pip install -r req.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && echo EVERYTHING STARTED 
 
 
-or write start.cmd
+or write chmod +x /workspace/Weihnachtsbasar_Derksen_Neu_Django_Python/start.cmd and start.cmd
+
+copy: 
+
+chmod +x /workspace/Weihnachtsbasar_Derksen_Neu_Django_Python/start.cmd && start.cmd

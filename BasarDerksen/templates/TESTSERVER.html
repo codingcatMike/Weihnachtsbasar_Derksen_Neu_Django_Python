@@ -24,16 +24,10 @@
     <button onclick="settingsactivate()" id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
     
     <div style="display: none;" class="inputs">
-{% for product in all_products %}
-    {% if product.shop == 'TEST' %}
-        <input id="i{{ forloop.counter }}" class="inputs" placeholder="Name Produkt {{ forloop.counter }}">
-        <input id="p{{ forloop.counter }}" class="inputs" placeholder="Preis Produkt {{ forloop.counter }}">
-        <input id="n{{ forloop.counter }}" class="inputs" placeholder="Number Produkt {{ forloop.counter }} (Leave blank to create a new product)">
-        <br>
-    {% endif %}
-{% endfor %}
+
     <input id="newname" class="inputs" placeholder="Name Produkt">
     <input id="newprice" class="inputs" placeholder="Preis Produkt">
+    <input id="id_number" class="inputs" placeholder="Number (Leave Clear for new product)">
 
 
         <button onclick="ausblenden()" class="inputs" id="ausblendenButton">Übernehmen</button>
@@ -43,154 +37,97 @@
 var prices = [];
 var names = [];
 
-window.onload = function() {
-    
-    alert('Please configure your settings use the ⚙️ button and scroll down')
-};
-
-function settingsactivate() {
-    const inputs = document.getElementsByClassName('inputs');
-    
+function showInputs() {
+    const inputs = document.querySelectorAll('.inputs');
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].style.display = 'block'; 
     }
+    
+    localStorage.setItem("reload", 0)
+}
+
+window.onload = function() {
+    var relaod = localStorage.getItem("reload"); 
+    if(relaod === '1') {
+        showInputs();
+    }   else { 
+        if (relaod === '0')
+        alert('Please configure your settings using the ⚙️ button and scroll down')
+    }
+};
+
+function settingsactivate() {
+    localStorage.setItem("reload", 1);
+    setTimeout(function() {
+        
+        location.reload();
+    }, 200); // 1 second
 }
 
 function createNewItem(namePro, pricePro, pronumber) {
+    const shop = 'TEST'
     const newProductName = document.getElementById('newname').value;
     const newProductPrice = document.getElementById('newprice').value;
-    
-    const newProduct = {
-    name: newProductName,
-    price: newProductPrice
-  };
+    const id_number = document.getElementById('id_number').value;
+    const productButtons = document.querySelectorAll('.Products');
+    const productCount = productButtons.length + 1;
+    console.log(newProductName, newProductPrice, id_number, productCount, productButtons)
+
+    if (id_number === '') {
+        let formData = new FormData();
+        let token = '{{csrf_token}}'; 
+        formData.append('shop', shop);
+        formData.append('name', newProductName);
+        formData.append('price', newProductPrice);
+        formData.append('pronumber', productCount); // append product quantity to formData
+        formData.append('csrfmiddlewaretoken', token);
+    if (newProductName === '' ) {
+        alert('Das Produkt mit der Nummer ' + id_number + 'wurde gelöscht');
+    } else {
+        alert(newProductName + " (" + newProductPrice + "€) wurde zum Shop " + shop + " hinzugefügt" +  ' (' + productCount + ')'  ); }
+
+        fetch('/!Test', {
+            method: 'POST',
+            body: formData }
+    )
+
+    } else {
+        let formData = new FormData();
+        let token = '{{csrf_token}}'; 
+        formData.append('shop', shop);
+        formData.append('name', newProductName);
+        formData.append('price', newProductPrice);
+        formData.append('pronumber', id_number); // append product quantity to formData
+        formData.append('csrfmiddlewaretoken', token);
+
+        if (newProductName === '' ) {
+        alert('Das Produkt mit der Nummer ' + id_number + 'wurde gelöscht');
+    } else {
+        alert(newProductName + " (" + newProductPrice + "€) wurde zum Shop " + shop + " hinzugefügt" +  ' (' + id_number + ')'  ); }
+
+        fetch('/!Test', {
+            method: 'POST',
+            body: formData }
+    )
+}
+
 
 }
-/*const newProductName = document.getElementById('newname').value;
-const newProductPrice = document.getElementById('newprice').value;
 
-  // Create a new product object
-  const newProduct = {
-    name: newProductName,
-    price: newProductPrice
-  };
-additemtolist(newProductName, newProductPrice, document.querySelectorAll('[class="Products"]').length + 1) */
-function meineFunktion() {
-            console.log("Die Seite wurde neu geladen und die Funktion wurde ausgeführt.");
-        }
 
-        document.getElementById("setting").addEventListener("click", function() {
-            location.reload();
-        });
-
-        if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-            settingsactivate();
-        }
 function ausblenden() {
 
-    
+    createNewItem()
+    localStorage.setItem("reload", 2);
+    setTimeout(function() {
+        
+        location.reload();
+    }, 1000); // 1 second
 
-    if (confirm("Please reaload the site, if you already done it press 'ignore'")) {
-    location.reload()
-    } else {
-    alert('make sure everything is updated')
-    }
+  
 
-    const inputs = document.querySelectorAll('.inputs input:not([type="button"])');
-    prices = [];
-    names = [];
-    numbers = [];
 
-    for (let i = 0; i < inputElements.length; i++) {
-                inputElements[i].style.display = "none";
-            }
-    this.style.display = "none";
 
-    for (let i = 0; i < inputs.length; i++) {
-        if (inputs[i].id.startsWith('p')) {
-            prices.push(inputs[i].value);
-        } else if (inputs[i].id.startsWith('i')) {
-            names.push(inputs[i].value);
-        } else if (inputs[i].id.startsWith('n')) {
-            let pronumber = inputs[i].value;
-            let shopInput = document.getElementById(`shop${inputs[i].id.replace('n', '')}`);
-            let shopValue = shopInput.value;
-            if (!pronumber || pronumber === '') {
-                // Send fetch request to get next available pronumber
-                fetch('/!Test', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `shop=${shopValue}&get_next_pronumber=true`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    pronumber = data.next_pronumber;
-                    numbers.push(pronumber);
-                })
-                .catch(error => console.error('Error:', error));
-            } else {
-                numbers.push(pronumber);
-            }
-        }
-    }
-
-    // Create a new FormData object
-    const formData = new FormData();
-
-    // Add the prices, names, and numbers to the formData
-    for (let i = 0; i < prices.length; i++) {
-        formData.append(`price${i+1}`, prices[i]);
-        formData.append(`name${i+1}`, names[i]);
-        formData.append(`number${i+1}`, numbers[i]);
-    }
-
-    // Send the formData to the server
-    fetch('/TEST/', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => console.log('Data sent successfully:', data))
-    .catch(error => console.error('Error:', error));
-}
-
-function additemtolist(namePro, pricePro, pronumber) {
-    const shop = 'TEST'; 
-            
-    let formData = new FormData();
-    let token = '{{csrf_token}}'; 
-            
-    document.getElementById('number').value = ''
-
-    formData.append('shop', shop);
-    formData.append('name', namePro);
-    formData.append('price', pricePro);
-    formData.append('pronumber', pronumber); // append product quantity to formData
-    formData.append('csrfmiddlewaretoken', token);
-
-    alert(namePro + " (" + pricePro + "€) wurde zum Shop " + shop + " hinzugefügt" +  ' (' + pronumber + ')'  );
-
-    fetch('/!Test', {
-        method: 'POST',
-        body: formData
-    })
-
-    // Setze den Timeout auf 3 Sekunden (3000 Millisekunden) und lade die Seite neu
-    setTimeout(() => {
-        // location.reload(); // Seite neu laden
-    }, 70);
-}
-
-// new function to get current product count
-function getCurrentProductCount(shop) {
-    function getCurrentProductCount(shop) {
-    // get all buttons with id "Products"
-    const productButtons = document.querySelectorAll('#Products');
-    // return the count of product buttons
-    return productButtons.length;
-}
 }
 
         function additem(namebut, price) {
