@@ -8,132 +8,224 @@
     <meta name="author" content="Your Name">
     <title>Your Website Title</title>
     <style>
+        /* Global Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
         header {
-            background-color: #333;
-            color: white;
-            padding: 10px 0;
+            background-color: #0f86ee;
+            color: #ffffff;
+            padding: 20px;
             text-align: center;
         }
-        nav {
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: center;
-            background-color: #444;
+            justify-content: space-between;
         }
-        nav a {
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            text-align: center;
-        }
-        nav a:hover {
-            background-color: #555;
+        nav li {
+            margin-right: 20px;
         }
         main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
         }
-        footer {
-            background-color: #333;
-            color: white;
+        section {
+            background-color: #f7f7f7;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+
+
+        }
+        .ELEMENT {
+            background-color: #f7f7f7;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+        h1, h2, h3, h4 {
+            color: #337ab7;
+        }
+        /* Button Styles */
+        button {
+            background-color: #0f86ee;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #23527c;
+        }
+        button:active {
+            background-color: #1d4f7a;
+        }
+        /* Navigation Styles */
+        nav button {
+            background-color: #0f86ee;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        nav button:hover {
+            background-color: #05a1fc;
+        }
+        nav button:active {
+            background-color: #00c3ff;
         }
     </style>
-  
 </head>
-<body >
-
+<body>
     <header>
-        <h1>Produktlist</h1>
+        <nav>
+            <ul>
+                <li><button class="nav-button" data-href="/login">Login</button></li>
+                <li><button class="nav-button" data-href="/!">Produktliste</button></li>
+                <li><button class="nav-button" data-href="/AGB">AGBs</button></li>
+                <li><button class="nav-button" data-href="/info">Kundenseite</button></li>
+                <li><button class="nav-button" data-href="/!sys">Hilfe</button></li>
+            </ul>
+        </nav>
     </header>
-
-    <nav>
-        <a href="http://localhost:8000/!sys">HELP</a>
-        <a href="http://localhost:8000">Login</a>
+    <script>
+        const navButtons = document.querySelectorAll('.nav-button');
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = button.dataset.href;
+            });
+        });
+    </script>
     </nav>
     <div style="padding-left:30px; ">
     <main>
         <h3>PRODUKTNAME, Produktnummer , Preis</h3>
-        <h3>------SHOP 1-----------</h3>
+      
 {% for item in all_items %}
     {% if item.shop == 'Shop1' %}
-        <div class="ELEMENT" data-item-id="{{ item.id }}">
-            <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-        </div>
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 1----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
     {% endif %}
 {% endfor %}
-
+{% for item in all_items %}
+    {% if item.shop == 'Shop2' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 2----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop3' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 3----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == '4' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 4----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop5' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 5----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop6' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 6----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop7' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 7----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop8' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 8----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop9' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 9----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'Shop10' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------SHOP 10----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
+{% for item in all_items %}
+    {% if item.shop == 'TEST' %}
+            <section class="ELEMENT" data-item-id="{{ item.id }}">
+                <div>
+                    <h3>----------------TEST----------------</h3>
+                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
+                </div>
+            </section>
+    {% endif %}
+{% endfor %}
        
-        <h3>-------SHOP 2---------</h3>
-        {% for item in all_items %}
-        {% if item.shop == 'Shop2' %}
-            <div class="ELEMENT" data-item-id="{{ item.id }}">
-                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-            </div>
-        {% endif %}
-    {% endfor %}
-        <h3>-------SHOP 3---------</h3>
-        {% for item in all_items %}
-        {% if item.shop == 'Shop3' %}
-            <div class="ELEMENT" data-item-id="{{ item.id }}">
-                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-            </div>
-        {% endif %}
-    {% endfor %}
-        <h3>-------SHOP 4---------</h3>
-        {% for item in all_items %}
-        {% if item.shop == 'Shop4' %}
-            <div class="ELEMENT" data-item-id="{{ item.id }}">
-                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-            </div>
-        {% endif %}
-    {% endfor %}
-        <h3>-------SHOP 5---------</h3>
-        {% for item in all_items %}
-        {% if item.shop == 'Shop5' %}
-            <div class="ELEMENT" data-item-id="{{ item.id }}">
-                <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-            </div>
-        {% endif %}
-    {% endfor %}
-        <h3>-------SHOP 6---------</h3>
-        <p>Produkt1  , 1 , XX€</p>
-        <p>Produkt1  , 2 , XX€</p>
-        <p>Produkt1  , 3 , XX€</p>
-        <p>Produkt1  , 4 , XX€</p>
-        <p>Produkt1  , 1 , XX€</p>
-        <h3>-------SHOP 7---------</h3>
-        <p>Produkt1  , 1 , XX€</p>
-        <p>Produkt1  , 2 , XX€</p>
-        <p>Produkt1  , 3 , XX€</p>
-        <p>Produkt1  , 4 , XX€</p>
-        <p>Produkt1  , 1 , XX€</p>
-        <h3>-------SHOP 8---------</h3>
-        <p>Produkt1  , 1 , XX€</p>
-        <p>Produkt1  , 2 , XX€</p>
-        <p>Produkt1  , 3 , XX€</p>
-        <p>Produkt1  , 4 , XX€</p>
-        <p>Produkt1  , 1 , XX€</p>
-        <h3>-------SHOP 9---------</h3>
-        <p>Produkt1  , 1 , XX€</p>
-        <p>Produkt1  , 2 , XX€</p>
-        <p>Produkt1  , 3 , XX€</p>
-        <p>Produkt1  , 4 , XX€</p>
-        <p>Produkt1  , 1 , XX€</p>
-        <h3>-------SHOP 10--------</h3>
-        <p>Produkt1  , 1 , XX€</p>
-        <p>Produkt1  , 2 , XX€</p>
-        <p>Produkt1  , 3 , XX€</p>
-        <p>Produkt1  , 4 , XX€</p>
-        <p>Produkt1  , 1 , XX€</p>
+
         <br>
         <br>
         <br>
@@ -144,7 +236,7 @@
     </script>
     </div>
     <footer>
-        <h3>BEI WEITEREN FRAGEN DRÜCK AUF "HELP" (GANZ OBEN)</h3>
+    
     </footer>
 
 </body>

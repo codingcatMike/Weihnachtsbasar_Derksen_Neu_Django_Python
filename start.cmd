@@ -1,1 +1,1 @@
-python -m pip install -r req.txt && python.exe -m pip install --upgrade pip && python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser && echo EVERYTHING STARTED SUCCESSFULLY && python manage.py runserver 0.0.0.0:8000 
+python -m pip install -r req.txt && python -m pip install --upgrade pip && python manage.py makemigrations && python manage.py migrate &&  echo EVERYTHING STARTED SUCCESSFULLY && python manage.py runserver 0.0.0.0:8000 

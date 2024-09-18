@@ -1,161 +1,103 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/shoptest.css' %}">
 
-<link rel="stylesheet" href="{% static 'css/shop.css' %}">
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    
+    
 </head>
+<header id="header"><button id="menu">☰</button></header>
+<div id="links"></div>
+
 <body id="Body">
+
+<div id="content">
     <h1 id="Cassa">PRODUKTE</h1>
-    
     <input style="margin-bottom: 30px; height: 30px;" class="User" type="number" id="number" placeholder="Hier Kundennummer eingeben">
- <div> 
-  {% for product in all_products %} 
-    {% if product.shop == 'TEST' %}
-    <button id="eins" class="Products" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€</button>
-    {% endif %}
-{% endfor %}
-</div>  
-    <button onclick="settingsactivate()" id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
-    
-    <div style="display: none;" class="inputs">
-
-    <input id="newname" class="inputs" placeholder="Name Produkt">
-    <input id="newprice" class="inputs" placeholder="Preis Produkt">
-    <input id="id_number" class="inputs" placeholder="Number (Leave Clear for new product)">
-
-
-        <button onclick="ausblenden()" class="inputs" id="ausblendenButton">Übernehmen</button>
+    <div>
+        {% for product in all_products %}
+            {% if product.shop == 'TEST' %}
+                <button class="Products" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€</button>
+            {% endif %}
+        {% endfor %}
     </div>
-    
+    <button onclick="settingsactivate()" id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
+    <div style="display: none;" class="inputs">
+        <input id="newname" class="inputs" placeholder="Name Produkt">
+        <input id="newprice" class="inputs" placeholder="Preis Produkt">
+        <input id="id_number" class="inputs" placeholder="Number (Leave Clear for new product)">
+        <button onclick="ausblenden()" class="inputs" id="ausblendenButton">Übernehmen</button>
+    </div> <div id="left-bar"></div>   </div> 
+   
     <script>
-var prices = [];
-var names = [];
+        function showInputs() {
+            document.querySelectorAll('.inputs').forEach(input => input.style.display = 'block');
+            localStorage.setItem("reload", 0)
+        }
 
-function showInputs() {
-    const inputs = document.querySelectorAll('.inputs');
-    for (let i = 0; i < inputs.length; i++) {
-        inputs[i].style.display = 'block'; 
-    }
-    
-    localStorage.setItem("reload", 0)
-}
+        window.onload = function() {
+            if (localStorage.getItem("reload") === '1') {
+                showInputs();
+            } else if (localStorage.getItem("reload") === '0') {
+                alert('Please configure your settings using the ⚙️ button and scroll down')
+            }
+        };
 
-window.onload = function() {
-    var relaod = localStorage.getItem("reload"); 
-    if(relaod === '1') {
-        showInputs();
-    }   else { 
-        if (relaod === '0')
-        alert('Please configure your settings using the ⚙️ button and scroll down')
-    }
-};
+        function settingsactivate() {
+            localStorage.setItem("reload", 1);
+            setTimeout(() => location.reload(), 200);
+        }
 
-function settingsactivate() {
-    localStorage.setItem("reload", 1);
-    setTimeout(function() {
-        
-        location.reload();
-    }, 200); // 1 second
-}
+        function createNewItem() {
+            const shop = 'TEST'
+            const newProductName = document.getElementById('newname').value;
+            const newProductPrice = document.getElementById('newprice').value;
+            const id_number = document.getElementById('id_number').value;
+            const productCount = document.querySelectorAll('.Products').length + 1;
 
-function createNewItem(namePro, pricePro, pronumber) {
-    const shop = 'TEST'
-    const newProductName = document.getElementById('newname').value;
-    const newProductPrice = document.getElementById('newprice').value;
-    const id_number = document.getElementById('id_number').value;
-    const productButtons = document.querySelectorAll('.Products');
-    const productCount = productButtons.length + 1;
-    console.log(newProductName, newProductPrice, id_number, productCount, productButtons)
+            const formData = new FormData();
+            formData.append('shop', shop);
+            formData.append('name', newProductName);
+            formData.append('price', newProductPrice);
+            formData.append('pronumber', id_number || productCount);
+            formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
 
-    if (id_number === '') {
-        let formData = new FormData();
-        let token = '{{csrf_token}}'; 
-        formData.append('shop', shop);
-        formData.append('name', newProductName);
-        formData.append('price', newProductPrice);
-        formData.append('pronumber', productCount); // append product quantity to formData
-        formData.append('csrfmiddlewaretoken', token);
-    if (newProductName === '' ) {
-        alert('Das Produkt mit der Nummer ' + id_number + 'wurde gelöscht');
-    } else {
-        alert(newProductName + " (" + newProductPrice + "€) wurde zum Shop " + shop + " hinzugefügt" +  ' (' + productCount + ')'  ); }
+            if (newProductName) {
+                alert(`${newProductName} (${newProductPrice}€) wurde zum Shop ${shop} hinzugefügt`);
+            } else {
+                alert(`Das Produkt mit der Nummer ${id_number} wurde gelöscht`);
+            }
 
-        fetch('/!Test', {
-            method: 'POST',
-            body: formData }
-    )
+            fetch('/!Test', { method: 'POST', body: formData });
+        }
 
-    } else {
-        let formData = new FormData();
-        let token = '{{csrf_token}}'; 
-        formData.append('shop', shop);
-        formData.append('name', newProductName);
-        formData.append('price', newProductPrice);
-        formData.append('pronumber', id_number); // append product quantity to formData
-        formData.append('csrfmiddlewaretoken', token);
-
-        if (newProductName === '' ) {
-        alert('Das Produkt mit der Nummer ' + id_number + 'wurde gelöscht');
-    } else {
-        alert(newProductName + " (" + newProductPrice + "€) wurde zum Shop " + shop + " hinzugefügt" +  ' (' + id_number + ')'  ); }
-
-        fetch('/!Test', {
-            method: 'POST',
-            body: formData }
-    )
-}
-
-
-}
-
-
-function ausblenden() {
-
-    createNewItem()
-    localStorage.setItem("reload", 2);
-    setTimeout(function() {
-        
-        location.reload();
-    }, 1000); // 1 second
-
-  
-
-
-
-}
+        function ausblenden() {
+            createNewItem();
+            localStorage.setItem("reload", 2);
+            setTimeout(() => location.reload(), 1000);
+        }
 
         function additem(namebut, price) {
-            let name = namebut.innerText;
-            let number = document.getElementById('number').value;
-
-            
-            let formData = new FormData();
-            let token = '{{csrf_token}}'; 
-
-            if (number < 1 ) {
-                alert("KEINE KUNDENNUMMER ANGEGEBEN")
-                return
+            const number = document.getElementById('number').value;
+            if (number < 1) {
+                alert("KEINE KUNDENNUMMER ANGEGEBEN");
+                return;
             }
-            document.getElementById('number').value = ''
+            document.getElementById('number').value = '';
 
+            const formData = new FormData();
             formData.append('number', number);
-            formData.append('name', name);
+            formData.append('name', namebut.innerText);
             formData.append('price', price);
-            formData.append('csrfmiddlewaretoken', token);
+            formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
 
-            alert(name + " (" + price + "€) wurde zum Kunden " + number + " hinzugefügt"   );
+            alert(`${namebut.innerText} (${price}€) wurde zum Kunden ${number} hinzugefügt`);
 
-            fetch('/Testshop', {
-                method: 'POST',
-                body: formData
-            })
-            
+            fetch('/Testshop', { method: 'POST', body: formData });
         }
     </script>
 </body>

@@ -1,0 +1,80 @@
+#Cassa {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(174, 183, 193);
+}
+
+#Body {
+    background-color: rgb(68, 67, 67);
+    margin: 0px;
+}
+
+#eins {
+    margin-top: 10px;
+    width: 49%;
+    height: 270px;
+}
+
+
+#header {
+    margin: 0px;
+    background-color: rgb(174, 184, 193);
+    padding: 20px;
+    
+}
+
+.Products:hover {
+    background-color: rgb(107, 161, 209);
+    
+}
+
+.Products {
+    background-color: rgb(174, 184, 193);
+    margin-top: 10px;
+    width: 49%;
+    height: 270px;
+    margin: 8px;
+}
+
+.User {
+    margin-left: 35%;
+    width: 30%;
+    margin-top: 1%;
+    height: 5%;
+}
+
+#menu {
+
+    padding-left: 20px;
+    width: 30px;
+    height: 30px;
+    border: 0px;
+    font-size: x-large;
+    background-color: transparent;
+
+}
+
+#links {
+
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 100%;
+    display: none;
+    
+
+}
+
+#left-bar {
+    width: 20px;
+    height: 100%;
+    background-color: rgb(174, 184, 193);
+    display: inline-block;
+    vertical-align: top;
+}
+
+#content {
+    overflow: hidden;
+    margin-left: 20px;
+}

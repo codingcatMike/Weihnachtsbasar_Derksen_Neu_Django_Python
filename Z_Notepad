@@ -1,8 +1,4 @@
 
 -design
--Custom einstellungen für Produkte
 
-// Set Item
-localStorage.setItem("lastname", "Mikel");
-// Retrieve
-document.getElementById("demo").innerHTML = localStorage.getItem("lastname");
+
