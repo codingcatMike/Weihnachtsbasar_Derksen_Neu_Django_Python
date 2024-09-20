@@ -28,21 +28,15 @@ urlpatterns = [
     path('cassa', cassa),
     path('update-item/', views.update_item, name='update_item'),
     path('login', index, name='hompage'),
-    path('Shop1', Shop_1),
-    path('Shop2', Shop_2),
-    path('Shop3', Shop_3),
-    path('Shop4', Shop_4),
-    path('Shop5', Shop_5),
-    path('Shop6', Shop_6),
-    path('Shop7', Shop_7),
     path('Gunterhans', Gunterhans),
     path('check-update/', check_for_update, name='check_update'),
     path('!', help),
     path('!sys', sys),
-    path('!Test', TEST),
+    path('Shop', TEST),
     path('', start),
     path('info', kundeninfo),
     path('AGB', agb),
-    path('deleteAll', delete_all_items )
+    path('deleteAll', delete_all_items ),
+    path('getStore', numberpro)
 
 ]

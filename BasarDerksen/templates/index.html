@@ -142,7 +142,7 @@ input[type="submit"]:hover {
         // Benutzerdaten
         const benutzer = [
     { benutzername: "Kasse", passwort: "dollars", rolle: "cassa" },
-    { benutzername: "TEST", passwort: "", rolle: "Platzchenshop" },   
+    { benutzername: "ALTTEST", passwort: "", rolle: "Platzchenshop" },   
     { benutzername: "Shop1", passwort: "S1", rolle: "Shop1" },
     { benutzername: "Shop2", passwort: "S2", rolle: "Shop2" },
     { benutzername: "Shop3", passwort: "S3", rolle: "Shop3" },
@@ -151,6 +151,7 @@ input[type="submit"]:hover {
     { benutzername: "Shop6", passwort: "S6", rolle: "Shop6" },
     { benutzername: "Shop7", passwort: "S7", rolle: "Shop7" },
     { benutzername: "Hans", passwort: "Gunter", rolle: "Gunterhans" },
+    { benutzername: "TEST", passwort: "TEST", rolle: "TESTSEITE" },
   ];
 
 
@@ -170,9 +171,14 @@ input[type="submit"]:hover {
       
       if (benutzerdaten.rolle === "cassa") {
         window.location.assign("cassa"); // Weiterleitung zur cassa-Seite
-      };
-      if (benutzerdaten.passwort === "S1") {
-        window.location.assign("Shop1")
+      } else {
+        localStorage.setItem("Shop", benutzerdaten.benutzername)
+        window.location.assign("Shop")
+
+
+      }
+    /*  if (benutzerdaten.passwort === "S1") {
+      
 
       }
       if (benutzerdaten.passwort === "S2") {
@@ -208,7 +214,7 @@ input[type="submit"]:hover {
 
       }
 
-
+*/
 
 if (benutzerdaten.benutzername === "KakaoShop") {
 

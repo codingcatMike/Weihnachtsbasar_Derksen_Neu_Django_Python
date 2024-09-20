@@ -1,3 +1,5 @@
+
+
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/shoptest.css' %}">
 
@@ -10,20 +12,51 @@
     
     
 </head>
-<header id="header"><button id="menu">☰</button></header>
-<div id="links"></div>
+<header id="header"><button id="menu" onclick="settingsshow()">☰</button></header>
+<div id="links"><button id="buttonmenu" onclick="hide()">x</button>
+<br>
+    <div class="meunuelemt"><a class="menulink" href="#" onclick="settingsactivate()">Dein Shop</a></div>
+
+</div></div>
 
 <body id="Body">
+<script>
 
+
+
+
+     window.onload = function()
+        
+        {
+            hideuseless()
+
+          
+            if (localStorage.getItem("reload") === '1') {
+                showInputs();
+            } else if (localStorage.getItem("reload") === '0') {
+                alert('Please configure your settings using the ⚙️ button and scroll down')
+            }
+        }; 
+
+</script>
 <div id="content">
     <h1 id="Cassa">PRODUKTE</h1>
     <input style="margin-bottom: 30px; height: 30px;" class="User" type="number" id="number" placeholder="Hier Kundennummer eingeben">
-    <div>
-        {% for product in all_products %}
-            {% if product.shop == 'TEST' %}
-                <button class="Products" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€</button>
-            {% endif %}
-        {% endfor %}
+  <br>
+
+      
+{% for product in all_products %}
+
+
+    <button  class="Products {{product.shop}}" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€ {{ product.shop }}</button>
+{% endfor %}
+   </div>
+</div>
+<style>
+    .Products{
+        display: none;
+    }
+</style>
     </div>
     <button onclick="settingsactivate()" id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
     <div style="display: none;" class="inputs">
@@ -34,45 +67,57 @@
     </div> <div id="left-bar"></div>   </div> 
    
     <script>
+
+        function hide () {
+
+             document.getElementById('links').style.display = 'none'
+        }
+        function hideuseless() {
+
+    const productsButtons = document.querySelectorAll(`button.${localStorage.getItem('Shop')}`);
+            productsButtons.forEach(button => {button.style.display = 'block'})
+
+        }
+
+        function settingsshow() {
+            
+
+            document.getElementById('links').style.display = 'block'
+
+        }
+
         function showInputs() {
             document.querySelectorAll('.inputs').forEach(input => input.style.display = 'block');
             localStorage.setItem("reload", 0)
         }
 
-        window.onload = function() {
-            if (localStorage.getItem("reload") === '1') {
-                showInputs();
-            } else if (localStorage.getItem("reload") === '0') {
-                alert('Please configure your settings using the ⚙️ button and scroll down')
-            }
-        };
-
+       
         function settingsactivate() {
             localStorage.setItem("reload", 1);
             setTimeout(() => location.reload(), 200);
         }
 
         function createNewItem() {
-            const shop = 'TEST'
+            const Shop = localStorage.getItem('Shop')
             const newProductName = document.getElementById('newname').value;
             const newProductPrice = document.getElementById('newprice').value;
             const id_number = document.getElementById('id_number').value;
             const productCount = document.querySelectorAll('.Products').length + 1;
 
             const formData = new FormData();
-            formData.append('shop', shop);
+            formData.append('shop', Shop);
             formData.append('name', newProductName);
             formData.append('price', newProductPrice);
             formData.append('pronumber', id_number || productCount);
             formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
 
             if (newProductName) {
-                alert(`${newProductName} (${newProductPrice}€) wurde zum Shop ${shop} hinzugefügt`);
+                alert(`${newProductName} (${newProductPrice}€) wurde zum Shop ${Shop} hinzugefügt`);
             } else {
                 alert(`Das Produkt mit der Nummer ${id_number} wurde gelöscht`);
             }
 
-            fetch('/!Test', { method: 'POST', body: formData });
+            fetch('/Shop', { method: 'POST', body: formData });
         }
 
         function ausblenden() {

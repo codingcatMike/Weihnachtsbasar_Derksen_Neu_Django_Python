@@ -5,30 +5,110 @@
 }
 
 #Body {
-    background-color: rgb(68, 67, 67);
+    background-color: rgb(255, 0, 0);
+    margin: 0px;
+    
+
 }
 
 #eins {
     margin-top: 10px;
-    width: 49%;
+    width: 500px;
     height: 270px;
 }
 
 
 #header {
-    background-color: #f0f0f0;
+    margin: 0px;
+    background-color: rgb(174, 184, 193);
     padding: 20px;
-    text-align: center;
+    
 }
 
 .Products:hover {
     background-color: rgb(107, 161, 209);
+    
 }
 
 .Products {
     background-color: rgb(174, 184, 193);
     margin-top: 10px;
-    width: 49%;
+    width: 500px;
     height: 270px;
+    margin: 8px;
 }
 
+.User {
+    margin-left: 35%;
+    width: 30%;
+    margin-top: 1%;
+    height: 5%;
+}
+
+#menu {
+
+    padding-left: 20px;
+    width: 30px;
+    height: 30px;
+    border: 0px;
+    font-size: x-large;
+    background-color: transparent;
+
+}
+
+#links {
+
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 100%;
+    display: none;
+    z-index: 2000; /* hoher Wert, damit die Bar über allen anderen Elementen liegt */
+    background-color: rgb(174, 184, 193);
+    
+    
+
+}
+
+#left-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 100%;
+    background-color: rgb(174, 184, 193);
+    z-index: 1000; /* hoher Wert, damit die Bar über allen anderen Elementen liegt */
+  }
+
+#content {
+    overflow: hidden;
+    margin-left: 20px;
+    z-index: 1;
+}
+
+.meunuelemt {
+
+
+position: absolute;
+left:20px;
+
+
+}
+
+#buttonmenu {
+font-size: larger;
+position: absolute;
+left: 180px;
+background-color: transparent;
+border: 0px;
+
+
+
+}
+
+.menulink {
+
+    color: black;
+    text-decoration: none;
+}

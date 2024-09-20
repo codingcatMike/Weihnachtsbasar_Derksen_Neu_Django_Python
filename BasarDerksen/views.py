@@ -76,20 +76,7 @@ def update_item(request):
         return HttpResponseBadRequest('Invalid request method')
     
 
-def Shop_1(request):
-    return render(request, 'Shop1.html')
-def Shop_2(request):
-    return render(request, 'Shop2.html')
-def Shop_3(request):
-    return render(request, 'Shop3.html')
-def Shop_4(request):
-    return render(request, 'Shop4.html')
-def Shop_5(request):
-    return render(request, 'Shop5.html')
-def Shop_6(request):
-    return render(request, 'Shop6.html')
-def Shop_7(request):
-    return render(request, 'Shop7.html')
+
 def Gunterhans(request):
     return render(request, 'Gunterhans.html')
 def sys(request):
@@ -155,42 +142,54 @@ def get_total_earnings():
     print(total_earnings)
     return total_earnings
 from .models import products
+
+def numberpro(request):
+    #shop = request.POST['ProShop']
+    shop = request.POST['ProShop']
+    print(request.POST['ProShop'])
+    print("Shop value:", shop)
+    all_products = products.objects.filter(shop=shop)
+    print(all_products)
+    print(all_products.query)
+    
+    return render(request, 'TESTSERVER.html', {'items_all': all_products})
+
 def TEST(request):
     next_pronumber = None
+    
     if request.method == 'POST':
-        if 'get_next_pronumber' in request.POST:
             shop = request.POST['shop']
             next_pronumber = products.objects.filter(shop=shop).count() + 1
-            
-        shop = request.POST['shop']  # Kundennummer aus der Anfrage abrufen
-        name = request.POST['name']  # Artikelname aus der Anfrage abrufen
-        pronumber = Decimal(request.POST['pronumber'])
-        if request.POST['price'] == '':
-            price = 0 
-        else:
-            price = Decimal(request.POST['price'])  # Preis in Decimal umwandeln
-        print('Received Data: ' + shop + ', ' + name + ', ' + str(price) + ',' + str(pronumber))
-
-        if name == '':  # Check if name is empty
-            # Delete the object with the corresponding pronumber
-            products.objects.filter(pronumber=pronumber).delete()
-            print('Deleted object with pronumber', pronumber)
-        else:
-            existing_item = products.objects.filter(pronumber=pronumber).first()
-            print('debug')
-            if existing_item:
-             # Wenn der Eintrag existiert, aktualisiere den Namen und addiere den neuen Preis
-                existing_item.price = price  # Neuen Preis zum bestehenden Preis addieren
-                existing_item.name = name
-                existing_item.shop = shop # Neuen Namen anhängen
-                existing_item.pronumber = pronumber
-                existing_item.save()  # Änderungen speichern
-                print('existing' + shop + ', ' + name + ', ' + str(price) )
+            shop = request.POST['shop']  # Kundennummer aus der Anfrage abrufen
+            name = request.POST['name']  # Artikelname aus der Anfrage abrufen
+            pronumber = Decimal(request.POST['pronumber'])
+            if request.POST['price'] == '':
+                price = 0 
             else:
-                # Wenn kein Eintrag existiert, einen neuen erstellen
-                products.objects.create(shop=shop, name=name, price=price, pronumber=pronumber)
-                print('new' + shop + ', ' + name + ', ' + str(price) )
-    
+                price = Decimal(request.POST['price'])  # Preis in Decimal umwandeln
+            print('Received Data: ' + shop + ', ' + name + ', ' + str(price) + ',' + str(pronumber))
+
+            if name == '':  # Check if name is empty
+                # Delete the object with the corresponding pronumber
+                products.objects.filter(pronumber=pronumber).delete()
+                print('Deleted object with pronumber', pronumber)
+            else:
+                existing_item = products.objects.filter(pronumber=pronumber).first()
+                print('debug')
+                if existing_item:
+                    # Wenn der Eintrag existiert, aktualisiere den Namen und addiere den neuen Preis
+                    existing_item.price = price  # Neuen Preis zum bestehenden Preis addieren
+                    existing_item.name = name
+                    existing_item.shop = shop # Neuen Namen anhängen
+                    existing_item.pronumber = pronumber
+                    existing_item.save()  # Änderungen speichern
+                    print('existing' + shop + ', ' + name + ', ' + str(price) )
+                else:
+                    # Wenn kein Eintrag existiert, einen neuen erstellen
+                    products.objects.create(shop=shop, name=name, price=price, pronumber=pronumber)
+                    print('new' + shop + ', ' + name + ', ' + str(price) )
+
+      # or however you're getting the shop value
     
     all_products = products.objects.all()
-    return render(request, 'TESTSERVER.html', {'all_products': all_products, 'next_pronumber': next_pronumber})
+    return render(request, 'TESTSERVER.html', {  'all_products': all_products,'next_pronumber': next_pronumber})
