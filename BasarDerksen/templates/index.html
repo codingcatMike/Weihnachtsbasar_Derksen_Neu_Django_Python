@@ -3,6 +3,7 @@
 
 <head>
     <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
 
@@ -17,6 +18,7 @@
         <label for="passwort">Passwort:</label>
         <input type="password" id="passwort" ><br>
         <input type="submit" value="Anmelden">
+        <a onclick="showinput()"> Noch kein Account?</a>
     </form>
 
 
@@ -29,6 +31,14 @@
 
 
     <style>
+
+ #popup {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
         body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
@@ -140,22 +150,72 @@ input[type="submit"]:hover {
 
 
         // Benutzerdaten
-        const benutzer = [
-    { benutzername: "Kasse", passwort: "dollars", rolle: "cassa" },
-    { benutzername: "ALTTEST", passwort: "", rolle: "Platzchenshop" },   
-    { benutzername: "Shop1", passwort: "S1", rolle: "Shop1" },
-    { benutzername: "Shop2", passwort: "S2", rolle: "Shop2" },
-    { benutzername: "Shop3", passwort: "S3", rolle: "Shop3" },
-    { benutzername: "Shop4", passwort: "S4", rolle: "Shop4" },
-    { benutzername: "Shop5", passwort: "S5", rolle: "Shop5" },
-    { benutzername: "Shop6", passwort: "S6", rolle: "Shop6" },
-    { benutzername: "Shop7", passwort: "S7", rolle: "Shop7" },
-    { benutzername: "Hans", passwort: "Gunter", rolle: "Gunterhans" },
-    { benutzername: "TEST", passwort: "TEST", rolle: "TESTSEITE" },
+  const benutzer = [
+   // { benutzername: "Kasse", passwort: "dollars", rolle: "cassa" },
+    // { benutzername: "ALTTEST", passwort: "", rolle: "Platzchenshop" },   
+   // { benutzername: "Shop1", passwort: "S1", rolle: "Shop1" },
+   // { benutzername: "Shop2", passwort: "S2", rolle: "Shop2" },
+   // { benutzername: "Shop3", passwort: "S3", rolle: "Shop3" },
+   // { benutzername: "Shop4", passwort: "S4", rolle: "Shop4" },
+   // { benutzername: "Shop5", passwort: "S5", rolle: "Shop5" },
+   // { benutzername: "Shop6", passwort: "S6", rolle: "Shop6" },
+   // { benutzername: "Shop7", passwort: "S7", rolle: "Shop7" },
+   // { benutzername: "Hans", passwort: "Gunter", rolle: "Gunterhans" },
+   // { benutzername: "TEST", passwort: "TEST", rolle: "TESTSEITE" },
   ];
+</script>
+
+{% for user in all_Users %}
+<script>
+console.log('debug')
+benutzer.push({ benutzername: "{{ user.username }}", passwort: "{{ user.password }}", rolle: "{{ user.role }}" });
+</script>
+{% endfor %}
+<form id="popup">
+  {% csrf_token %}
+  <label for="name">Bitte geben Sie Ihr Benutzername ein:</label>
+  <input id="name" name="name" type="text">
+  <label for="password">Bitte geben Sie Ihr Passwort ein:</label>
+  <input id="password" name="password" type="password">
+  <label for="aut">Bitte geben Sie den einmaligen authentificationCode ein:</label>
+  <input id="aut" name="aut" type="number">
+  <input type="submit" name="CreateUser">
+</form>
+
+<script>
+
+  function senduser() {
+    
+      let token = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+      let name = document.getElementById('name').value;
+      let password = document.getElementById('password').value;
+      let  aut = document.getElementById('aut').value;
+      alert(aut + ' + '  + name + ' + ' + password + 'sendout');
 
 
 
+     const formData = new FormData();
+            formData.append('username', document.getElementById('name').value );
+            formData.append('password', document.getElementById('password').value);
+            formData.append('authentificationCode', document.getElementById('aut').value);
+            formData.append('csrfmiddlewaretoken', token);
+      alert(formData)
+
+            
+
+      fetch('/login', { method: 'POST', body: formData }); 
+      
+
+
+    document.getElementById('popup').style.display =  'none';
+    setTimeout(function(){ location.reload() }, 500)
+}
+
+          
+    function showinput() {
+
+      document.getElementById('popup').style.display =  'block';
+    }
   
   // Funktion zum Überprüfen des Logins
   function login() {
@@ -248,6 +308,13 @@ alert("hi")
     event.preventDefault(); // Verhindert das automatische Absenden des Formulars
     login(); // Ruft die Login-Funktion auf
   });
+
+  document.getElementById("popup").addEventListener("submit", function(event) {
+    event.preventDefault(); // Verhindert das automatische Absenden des Formulars
+    senduser(); // Ruft die Login-Funktion auf
+  });
+
+
     </script>
 </body>
 <footer style="position: absolute; bottom: 0px;">

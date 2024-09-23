@@ -1,7 +1,5 @@
 
 
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/shoptest.css' %}">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +14,14 @@
 <div id="links"><button id="buttonmenu" onclick="hide()">x</button>
 <br>
     <div class="meunuelemt"><a class="menulink" href="#" onclick="settingsactivate()">Dein Shop</a></div>
-
+    <br>
+    <div class="meunuelemt"><a class="menulink" href="/login" >Login</a></div>
+    <br>
+    <div class="meunuelemt"><a class="menulink" href="/!sys" >Systemhilfe</a></div>
+    <br>
+    <div class="meunuelemt"><a class="menulink" href="/!" >Produktliste</a></div>
+    <br>
+    <div class="meunuelemt"><a class="menulink" href="/" >Startseite</a></div>
 </div></div>
 
 <body id="Body">
@@ -46,17 +51,12 @@
 
       
 {% for product in all_products %}
+    <button  class="Products {{product.shop}}" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€ {{ product.shop }} || Produktnummer:  {{ product.pronumber }}</button>
 
-
-    <button  class="Products {{product.shop}}" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€ {{ product.shop }}</button>
 {% endfor %}
-   </div>
-</div>
-<style>
-    .Products{
-        display: none;
-    }
-</style>
+  
+
+
     </div>
     <button onclick="settingsactivate()" id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
     <div style="display: none;" class="inputs">
@@ -64,7 +64,7 @@
         <input id="newprice" class="inputs" placeholder="Preis Produkt">
         <input id="id_number" class="inputs" placeholder="Number (Leave Clear for new product)">
         <button onclick="ausblenden()" class="inputs" id="ausblendenButton">Übernehmen</button>
-    </div> <div id="left-bar"></div>   </div> 
+    </div> <div id="left-bar"></div>   </div> </div> 
    
     <script>
 
@@ -75,7 +75,7 @@
         function hideuseless() {
 
     const productsButtons = document.querySelectorAll(`button.${localStorage.getItem('Shop')}`);
-            productsButtons.forEach(button => {button.style.display = 'block'})
+            productsButtons.forEach(button => {button.style.display = 'inline-block'})
 
         }
 
@@ -147,3 +147,127 @@
     </script>
 </body>
 </html>
+<style>
+#Cassa {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(174, 183, 193);
+}
+
+#Body {
+    background-color: rgb(68, 67, 67);
+    margin: 0px;
+    
+
+}
+
+#eins {
+    margin-top: 10px;
+    width: 700px;
+    height: 270px;
+}
+
+
+#header {
+    margin: 0px;
+    background-color: rgb(174, 184, 193);
+    padding: 20px;
+    
+}
+
+.Products:hover {
+    background-color: rgb(107, 161, 209);
+    
+}
+
+.Products {
+    background-color: rgb(174, 184, 193);
+    margin-top: 10px;
+    width: 750px;
+    height: 270px;
+    display: none;
+    
+    margin: 10px;
+}
+
+.User {
+    margin-left: 35%;
+    width: 30%;
+    margin-top: 1%;
+    height: 5%;
+}
+
+#menu {
+
+    padding-left: 20px;
+    width: 30px;
+    height: 30px;
+    border: 0px;
+    font-size: x-large;
+    background-color: transparent;
+
+}
+
+#links {
+
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 100%;
+    display: none;
+    z-index: 2000; /* hoher Wert, damit die Bar über allen anderen Elementen liegt */
+    background-color: rgb(174, 184, 193);
+    
+    
+
+}
+
+#left-bar {
+    position: fixed; /* changed from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 100vh;
+    background-color: rgb(174, 184, 193);
+    z-index: 1000; /* hoher Wert, damit die Bar über allen anderen Elementen liegt */
+}
+
+#content {
+    overflow: hidden;
+    margin-left: 20px;
+    z-index: 1;
+    
+}
+
+.meunuelemt {
+
+
+position: absolute;
+left:20px;
+
+
+}
+
+#buttonmenu {
+font-size: larger;
+position: absolute;
+left: 180px;
+background-color: transparent;
+border: 0px;
+
+
+
+}
+
+.menulink {
+
+    color: black;
+    text-decoration: none;
+}
+
+.inputs {
+
+    margin-left: 15px;
+}
+</style>

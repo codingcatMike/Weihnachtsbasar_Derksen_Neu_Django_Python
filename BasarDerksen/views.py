@@ -39,10 +39,31 @@ def Testshop(request):
     # Alle Artikel abrufen, die nicht als erledigt markiert sind
     all_items = ShoppingItem.objects.filter(done=0)
     return render(request, 'PlätzchenShop.html', {'all_items': all_items})
-
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse, HttpResponseBadRequest
+from .models import ShoppingItem
+import json
+from .models import User
 
 def index(request):
-    return render(request, 'index.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        authentificationCode = 78
+
+        print(username + ' =Username ' +  password + ' =Password ' + str(authentificationCode) + ' =AuthentificationCode')
+        if authentificationCode % 78 == 0:
+            new_user = User.objects.create(username=username, password=password, authentificationCode=authentificationCode)
+            new_user.save()
+            all_Users = User.objects.all()
+            return render(request, 'index.html', {'all_Users': all_Users})
+        else:
+            print("Wrong authenificationCode")
+            return HttpResponse("Wrong authenificationCode")
+
+    all_Users = User.objects.all()
+    return render(request, 'index.html', {'all_Users': all_Users})
 
 def cassa(request):
     all_items = ShoppingItem.objects.filter(done=0)
@@ -53,9 +74,8 @@ def cassa(request):
 
 
 
-from django.http import JsonResponse, HttpResponseBadRequest
-from .models import ShoppingItem
-import json
+
+
 
 def update_item(request):
     
@@ -153,6 +173,9 @@ def numberpro(request):
     print(all_products.query)
     
     return render(request, 'TESTSERVER.html', {'items_all': all_products})
+
+def Handy(request):
+    return render(request, 'handyversion.html')
 
 def TEST(request):
     next_pronumber = None

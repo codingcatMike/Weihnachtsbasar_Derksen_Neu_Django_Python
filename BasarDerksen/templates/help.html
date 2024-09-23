@@ -113,117 +113,19 @@
     <div style="padding-left:30px; ">
     <main>
         <h3>PRODUKTNAME, Produktnummer , Preis</h3>
-      
-{% for item in all_items %}
-    {% if item.shop == 'Shop1' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 1----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
+
+        {% regroup all_items|dictsort:"shop" by shop as shop_list %}
+        
+        {% for shop in shop_list %}
+            <section class="ELEMENT" data-shop="{{ shop.grouper }}">
+                <h3>----------------{{ shop.grouper }}----------------</h3>
+                {% for item in shop.list %}
+                    <div>
+                        <p>{{ item.name }} - {{ item.price }}€</p>
+                    </div>
+                {% endfor %}
             </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop2' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 2----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop3' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 3----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == '4' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 4----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop5' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 5----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop6' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 6----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop7' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 7----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop8' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 8----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop9' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 9----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'Shop10' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------SHOP 10----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
-{% for item in all_items %}
-    {% if item.shop == 'TEST' %}
-            <section class="ELEMENT" data-item-id="{{ item.id }}">
-                <div>
-                    <h3>----------------TEST----------------</h3>
-                    <p>{{ item.shop }} - {{ item.name }} - {{ item.price }}€</p>
-                </div>
-            </section>
-    {% endif %}
-{% endfor %}
+        {% endfor %}
        
 
         <br>

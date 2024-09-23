@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Shop</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .header button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .header button:hover {
+            background-color: #444;
+        }
+        .products {
+            margin-top: 20px;
+        }
+        .product {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .product button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .product button:hover {
+            background-color: #444;
+        }
+        .inputs {
+            display: none;
+        }
+        .inputs.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button id="menu">☰</button>
+            <h1>PRODUKTE</h1>
+        </div>
+        <div class="products">
+            {% for product in all_products %}
+            <div class="product">
+                <button onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€ {{ product.shop }}</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="inputs">
+            <input id="newname" placeholder="Name Produkt">
+            <input id="newprice" placeholder="Preis Produkt">
+            <input id="id_number" placeholder="Number (Leave Clear for new product)">
+            <button onclick="ausblenden()">Übernehmen</button>
+        </div>
+        <button id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
+    </div>
+
+    <script>
+
+        
+
+
+
+     window.onload = function()
+        
+        {
+            hideuseless()
+
+          
+            if (localStorage.getItem("reload") === '1') {
+                showInputs();
+            } else if (localStorage.getItem("reload") === '0') {
+                alert('Please configure your settings using the ⚙️ button and scroll down')
+            }
+        }; 
+
+          function hide () {
+
+document.getElementById('links').style.display = 'none'
+}
+function hideuseless() {
+
+const productsButtons = document.querySelectorAll(`button.${localStorage.getItem('Shop')}`);
+productsButtons.forEach(button => {button.style.display = 'inline-block'})
+
+}
+
+function settingsshow() {
+
+
+document.getElementById('links').style.display = 'block'
+
+}
+
+function showInputs() {
+document.querySelectorAll('.inputs').forEach(input => input.style.display = 'block');
+localStorage.setItem("reload", 0)
+}
+
+
+function settingsactivate() {
+localStorage.setItem("reload", 1);
+setTimeout(() => location.reload(), 200);
+}
+
+function createNewItem() {
+const Shop = localStorage.getItem('Shop')
+const newProductName = document.getElementById('newname').value;
+const newProductPrice = document.getElementById('newprice').value;
+const id_number = document.getElementById('id_number').value;
+const productCount = document.querySelectorAll('.Products').length + 1;
+
+const formData = new FormData();
+formData.append('shop', Shop);
+formData.append('name', newProductName);
+formData.append('price', newProductPrice);
+formData.append('pronumber', id_number || productCount);
+formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
+
+if (newProductName) {
+   alert(`${newProductName} (${newProductPrice}€) wurde zum Shop ${Shop} hinzugefügt`);
+} else {
+   alert(`Das Produkt mit der Nummer ${id_number} wurde gelöscht`);
+}
+
+fetch('/Shop', { method: 'POST', body: formData });
+}
+
+function ausblenden() {
+createNewItem();
+localStorage.setItem("reload", 2);
+setTimeout(() => location.reload(), 1000);
+}
+
+function additem(namebut, price) {
+const number = document.getElementById('number').value;
+if (number < 1) {
+   alert("KEINE KUNDENNUMMER ANGEGEBEN");
+   return;
+}
+document.getElementById('number').value = '';
+
+const formData = new FormData();
+formData.append('number', number);
+formData.append('name', namebut.innerText);
+formData.append('price', price);
+formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
+
+alert(`${namebut.innerText} (${price}€) wurde zum Kunden ${number} hinzugefügt`);
+
+fetch('/Testshop', { method: 'POST', body: formData });
+}
+    </script>
+</body>
+</html>

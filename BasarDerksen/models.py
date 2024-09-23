@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+
 # Create your models here.
 class ShoppingItem(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
@@ -10,8 +11,14 @@ class ShoppingItem(models.Model):
     modified_at = models.DateTimeField(auto_now=True)  # add this field
 
 
+
 class products(models.Model):
     pronumber = models.PositiveIntegerField(null=True, blank=True)
     name = models.CharField(max_length=100)
     shop = models.CharField(max_length=100, default='Unknown')
     price = models.PositiveIntegerField(null=True, blank=True)
+
+class User(models.Model):
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    authentificationCode = models.IntegerField(null=True)

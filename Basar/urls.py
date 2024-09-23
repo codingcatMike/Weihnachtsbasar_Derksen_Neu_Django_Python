@@ -37,6 +37,7 @@ urlpatterns = [
     path('info', kundeninfo),
     path('AGB', agb),
     path('deleteAll', delete_all_items ),
-    path('getStore', numberpro)
+    path('getStore', numberpro),
+    path('Shop_Handy', Handy)
 
 ]
