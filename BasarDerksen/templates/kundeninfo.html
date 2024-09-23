@@ -151,7 +151,7 @@
         const MainPart = document.getElementById('MainProd');
         document.getElementById('InfoB').style.display = 'none';
         function generateNumber() {
-            randomNum = Math.floor(Math.random() * 2) + 1;
+            const randomNum = Math.floor(Math.random() * 1000) + 1
             document.getElementById('randomNumber').textContent = randomNum;
             document.getElementById('generateButton').style.display = 'none';
             document.getElementById('bigTitle').style.display = 'none';
