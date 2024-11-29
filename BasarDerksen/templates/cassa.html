@@ -4,30 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cassa</title>
-</head>
-<body>
-   <div id="head"><h1>KASSE</h1></div>
-
-<div style="position: absolute; top: 20px; right: 20px; font-size: 24px; font-weight: bold; color: #fff;">Gesamteinnahmen: {{ total_earnings }}€</div>
-
-
-    
-<img class="background" src="https://cdn.pixabay.com/photo/2023/08/16/18/40/squirrel-8194830_1280.jpg">
-
-    {% for item in all_items %}
-    <div class="ELEMENT" data-item-id="{{ item.id }}">
-        <input type="checkbox">
-        {{ item.number }} - {{ item.name }} - &nbsp<div style="color: rgb(16, 209, 16); font-size: large; font-weight: 800;">{{ item.price }}€</div>
-    </div>
-    {% endfor %}
-
-
-
     <style>
         #head {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .ELEMENT {
@@ -40,66 +21,83 @@
             font-family: Arial, Helvetica, sans-serif;
             margin: 0px;
             z-index: 1;
-            color: rgb(224, 225, 226)
+            color: rgb(224, 225, 226);
         }
 
         .background {
-          position: absolute;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Deckt den gesamten Bereich ab */
-            z-index: -1; /* Bild in den Hintergrund verschieben */
-          }
-    </style>
-
-    <script>
-        // Funktion zum Überprüfen auf neue Daten
-        function checkForNewString() {
-            fetch('/check-update/')
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.reload) {
-                        // Seite neu laden, wenn neue Daten vorhanden sind
-                        window.location.reload();
-                    }
-                })
-                .catch((error) => console.error('Error:', error));
+            object-fit: cover;
+            z-index: -1;
         }
 
-        // Aufruf der Funktion alle 3 Sekunden
-        setInterval(checkForNewString, 3000);
+        .earnings {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
 
-        // Get all checkboxes with class "ELEMENT"
-        const checkboxes = document.querySelectorAll('.ELEMENT input[type="checkbox"]');
+        .happy-hour-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            background-color: transparent;
+            border: 0px;
+            cursor: pointer;
+        }
 
-        // Add event listener to each checkbox
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', (e) => {
-                // Get the item ID from the checkbox parent element
-                const itemId = checkbox.parentNode.dataset.itemId;
+        .happy-hour-active {
+            color: green;
+        }
 
-                // Send AJAX request to Django view
-                fetch('/update-item/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ itemId, done: false })
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    // Remove the item from the list if update was successful
-                    if (data.success) {
-                        checkbox.parentNode.remove();
-                    }
-                })
-                .catch((error) => console.error(error));
-            });
-        });
+        .happy-hour-inactive {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="head"><h1>KASSE</h1></div>
+
+    <div class="earnings">
+        Gesamteinnahmen: {{ total_earnings }}€
+    </div>
+
+    <button class="happy-hour-button {% if is_happy_hour %}happy-hour-active{% else %}happy-hour-inactive{% endif %}" onclick="happyHour()">
+        {% if is_happy_hour %}
+        Deactivate the Happy Hour
+        {% else %}
+        Activate the Happy Hour
+        {% endif %}
+    </button>
+
+    <img class="background" src="https://cdn.pixabay.com/photo/2023/08/16/18/40/squirrel-8194830_1280.jpg" alt="Background Image">
+
+    {% for item in all_items %}
+    <div class="ELEMENT" data-item-id="{{ item.id }}">
+        <input type="checkbox">
+        {{ item.number }} - {{ item.name }} - &nbsp;<div style="color: rgb(16, 209, 16); font-size: large; font-weight: 800;">{{ item.price }}€</div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function happyHour() {
+            const formData = new FormData();
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            formData.append('hour', 'change');
+            fetch('/happy-hour/', { method: 'POST', body: formData })
+            .then(() => {
+                location.href = '/cassa';
+            })
+            .catch((error) => console.error('Error:', error));
+        }
     </script>
-
 </body>
 </html>

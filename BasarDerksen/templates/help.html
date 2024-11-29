@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,25 +32,26 @@
         }
         main {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
             padding: 20px;
+            width: 100%;
         }
-        section {
-            background-color: #f7f7f7;
+        section, .ELEMENT {
+            background-color: #f0f0f0;
             padding: 20px;
-            margin-bottom: 20px;
+            margin: 0;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-
-
+            width: 300px;
+            flex: 0 0 auto;
+            border-radius: 10px;
         }
-        .ELEMENT {
-            background-color: #f7f7f7;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+        main > h3 {
+            width: 100%;
+            text-align: center;
         }
         h1, h2, h3, h4 {
             color: #337ab7;
@@ -101,6 +102,39 @@
             </ul>
         </nav>
     </header>
+
+    <main>
+        <h3>Produktname, Produktnummer, Preis</h3>
+
+        {% if is_Happy_Hour == True %}
+            {% regroup all_items|dictsort:"shop" by shop as shop_list %}
+            {% for shop in shop_list %}
+                <section class="ELEMENT" data-shop="{{ shop.grouper }}">
+                    <h3>----------------{{ shop.grouper }}----------------</h3>
+                    {% for item in shop.list %}
+                        <div>
+                            <p>{{ item.name }} - <span style="text-decoration: line-through; color: red;">{{ item.price }}€</span> <span style="color: green;">{{ item.price_happy_hour }}€</span></p>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        {% else %}
+            {% regroup all_items|dictsort:"shop" by shop as shop_list %}
+            {% for shop in shop_list %}
+                <section class="ELEMENT" data-shop="{{ shop.grouper }}">
+                    <h3>----------------{{ shop.grouper }}----------------</h3>
+                    {% for item in shop.list %}
+                        <div>
+                            <p>{{ item.name }} - {{ item.price }}€</p>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        {% endif %}
+
+        <div id="head"><h1></h1></div>
+    </main>
+
     <script>
         const navButtons = document.querySelectorAll('.nav-button');
         navButtons.forEach(button => {
@@ -108,38 +142,18 @@
                 window.location.href = button.dataset.href;
             });
         });
+
+        function checkReload() {
+            fetch('/check_reload/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.reload) {
+                    window.location.reload();
+                }
+            });
+        }
+        // Check every second
+        setInterval(checkReload, 1000);
     </script>
-    </nav>
-    <div style="padding-left:30px; ">
-    <main>
-        <h3>PRODUKTNAME, Produktnummer , Preis</h3>
-
-        {% regroup all_items|dictsort:"shop" by shop as shop_list %}
-        
-        {% for shop in shop_list %}
-            <section class="ELEMENT" data-shop="{{ shop.grouper }}">
-                <h3>----------------{{ shop.grouper }}----------------</h3>
-                {% for item in shop.list %}
-                    <div>
-                        <p>{{ item.name }} - {{ item.price }}€</p>
-                    </div>
-                {% endfor %}
-            </section>
-        {% endfor %}
-       
-
-        <br>
-        <br>
-        <br>
-        <div id="head"><h1></h1></div>
-    </main>
-    <script src="BasarDerksen\templates\PlätzchenShop.html">
- 
-    </script>
-    </div>
-    <footer>
-    
-    </footer>
-
 </body>
 </html>

@@ -45,26 +45,38 @@
 
 </script>
 <div id="content">
-    <h1 id="Cassa">PRODUKTE</h1>
+    <h1 id="Cassa">PRODUKTE </h1>
+    {% if is_Happy_Hour == True %}<p style="color: green; text-align: center; "> WITH THE HAPPY HOUR ENABLED</p>{% endif %}
+   
     <input style="margin-bottom: 30px; height: 30px;" class="User" type="number" id="number" placeholder="Hier Kundennummer eingeben">
   <br>
 
       
 {% for product in all_products %}
-    <button  class="Products {{product.shop}}" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€ {{ product.shop }} || Produktnummer:  {{ product.pronumber }}</button>
+    {% if is_Happy_Hour == True %}
+    <button  class="Products {{product.shop}}" id="eins" onclick="additem(this, '{{ product.price_happy_hour }}')">{{ product.name }} || {{ product.price_happy_hour }}€ || {{ product.shop }} || Produktnummer:  {{ product.pronumber }}</button>
+    {% else %}
+    <button  class="Products {{product.shop}}" id="eins" onclick="additem(this, '{{ product.price }}')">{{ product.name }} || {{ product.price }}€ || {{ product.shop }} || Produktnummer:  {{ product.pronumber }}</button>
+    {% endif %}
+    {% if forloop.last %}
+        {% if forloop.counter == 1 %}
+           
+        {% endif %}
+    {% endif %}
 
 {% endfor %}
-  
 
 
     </div>
     <button onclick="settingsactivate()" id="setting" style="position: absolute; bottom: 5px; right: 5px; width: 70px; height: 70px; z-index: 1; border-radius: 500px; font-size: xx-large;">⚙️</button>
     <div style="display: none;" class="inputs">
-        <label class="inputs">Name Produkt:</label>
+        <label class="input_description">Name Produkt:</label>
         <input id="newname" class="inputs" placeholder="Name Produkt">
-        <label class="inputs">Preis Produkt:</label>
+        <label class="input_description">Preis Produkt:</label>
         <input id="newprice" class="inputs" placeholder="Preis Produkt">
-        <label class="inputs">Produktnummer (Leerlassen für neues Produkt):</label>
+        <label class="input_description">Happy Hour Preis Produkt:</label>
+        <input id="happy_hour_price" class="inputs" placeholder="Happy Hour Preis Produkt">
+        <label class="input_description">Produktnummer (Leerlassen für neues Produkt):</label>
         <input id="id_number" class="inputs" placeholder="Number (Leave Clear for new product)">
         <button onclick="ausblenden()" class="inputs" id="ausblendenButton">Übernehmen</button>
     </div> <div id="left-bar"></div>   </div> </div> 
@@ -104,6 +116,7 @@
             const Shop = localStorage.getItem('Shop')
             const newProductName = document.getElementById('newname').value;
             const newProductPrice = document.getElementById('newprice').value;
+            const happy_hour_price = document.getElementById('happy_hour_price').value;
             const id_number = document.getElementById('id_number').value;
             const productCount = document.querySelectorAll('.Products').length + 1;
 
@@ -112,6 +125,7 @@
             formData.append('name', newProductName);
             formData.append('price', newProductPrice);
             formData.append('pronumber', id_number || productCount);
+            formData.append('happy_hour_price' , happy_hour_price);
             formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
 
             if (newProductName) {
@@ -141,12 +155,26 @@
             formData.append('number', number);
             formData.append('name', namebut.innerText);
             formData.append('price', price);
+            
+             
             formData.append('csrfmiddlewaretoken', '{{csrf_token}}');
 
             alert(`${namebut.innerText} (${price}€) wurde zum Kunden ${number} hinzugefügt`);
 
             fetch('/Testshop', { method: 'POST', body: formData });
         }
+        function checkReload() {
+    fetch('/check_reload/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.reload) {
+                window.location.reload();
+            }
+        });
+}
+
+// Check every second
+setInterval(checkReload, 1000);
     </script>
 </body>
 </html>
@@ -272,6 +300,14 @@ border: 0px;
 .inputs {
 
     margin-left: 15px;
+   
+}
+
+.input_description {
+
     color: white;
+    margin-left: 15px;
+
+
 }
 </style>

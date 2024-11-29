@@ -25,19 +25,21 @@ from BasarDerksen.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('Testshop', Testshop),
-    path('cassa', cassa),
+    path('cassa', cassa, name='cassa'),
     path('update-item/', views.update_item, name='update_item'),
     path('login', index, name='hompage'),
     path('Gunterhans', Gunterhans),
     path('check-update/', check_for_update, name='check_update'),
     path('!', help),
     path('!sys', sys),
-    path('Shop', TEST),
+    path('Shop', TEST, name='TEST'),
     path('', start),
     path('info', kundeninfo),
     path('AGB', agb),
-    path('deleteAll', delete_all_items ),
+    path('deleteAll/<str:text>/', delete_all_items ),
     path('getStore', numberpro),
-    path('Shop_Handy', Handy)
+    path('Shop_Handy', Handy),
+    path('happy-hour/', Happy_Hour),
+    path('check_reload/', views.check_reload, name='check_reload'),
 
 ]
