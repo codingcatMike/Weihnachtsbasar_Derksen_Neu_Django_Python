@@ -17,12 +17,13 @@ import time
 import threading
 
 # Add at the top of views.py with other globals
-reload_flag = False
+reload_flag = None
+reload_cassa = None
 
 def Happy_Hour(request):
     global reload_flag
     if request.method == 'POST':
-        Happy_Hour_object = HappyHour.objects.get(id=1)
+        Happy_Hour_object = HappyHour.objects.first()
         if Happy_Hour_object.is_happy_hour:
             Happy_Hour_object.is_happy_hour = False
         else:
@@ -64,12 +65,15 @@ def Testshop(request):
         # Debugging-Ausgabe
         print(message)
         
-
+        global reload_cassa
+        reload_cassa = True
         # JSON-Antwort zurückgeben, um die Frontend-Benachrichtigung zu ermöglichen
         return JsonResponse({'status': 'success', 'message': message})
 
     # Alle Artikel abrufen, die nicht als erledigt markiert sind
     all_items = ShoppingItem.objects.filter(done=0)
+    
+    reload_cassa = True
     return render(request, 'PlätzchenShop.html', {'all_items': all_items})
 
 
@@ -77,7 +81,7 @@ def index(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        authentificationCode = 78
+        authentificationCode = Decimal(request.POST.get('authentificationCode'))
 
         print(username + ' =Username ' +  password + ' =Password ' + str(authentificationCode) + ' =AuthentificationCode')
         if authentificationCode % 78 == 0:
@@ -99,7 +103,7 @@ def cassa(request):
     total_earnings = get_total_earnings()
 
     # Get the HappyHour object first
-    Happy_Hour_object = HappyHour.objects.get(id=1)
+    Happy_Hour_object = HappyHour.objects.first()
     
     is_happy_hour = Happy_Hour_object.is_happy_hour
     
@@ -200,26 +204,13 @@ from .models import ShoppingItem # Ersetze mit deinem Modells
 last_checked = None
 
 def check_for_update(request):
-    global last_checked  # Verwende eine globale Variable, um den letzten Zeitstempel zu speichern
-
-    # Wenn last_checked noch None ist, prüfe, ob es ShoppingItem-Objekte gibt
-    if last_checked is None:
-        if ShoppingItem.objects.exists():
-            last_checked = ShoppingItem.objects.latest('modified_at').modified_at
-        else:
-            last_checked = None  # oder ein Default-Datum
-
-    # Wenn last_checked immer noch None ist, gibt es keine ShoppingItem-Objekte
-    if last_checked is None:
-        return JsonResponse({"reload": False})
-
-    # Überprüfen, ob neue Daten in der Datenbank vorhanden sind
-    new_items = ShoppingItem.objects.filter(modified_at__gt=last_checked)
-    if new_items.exists():
-        last_checked = new_items.latest('modified_at').modified_at  # Update last_checked
-        return JsonResponse({"reload": True})
-
-    return JsonResponse({"reload": False})
+    """Check if other devices need to reload"""
+    global reload_cassa
+    should_reload = reload_cassa
+    print(should_reload)
+    if reload_cassa:
+        reload_cassa = False  # Reset the flag after sending reload signal
+    return JsonResponse({'reload': should_reload})
 
 def get_total_earnings():
     total_earnings = sum(item.price for item in ShoppingItem.objects.all())
@@ -289,6 +280,11 @@ def TEST(request):
         is_Happy_Hour = True
     else:
         is_Happy_Hour = False
+    
     return render(request, 'TESTSERVER.html', {  'all_products': all_products,'next_pronumber': next_pronumber, 'is_Happy_Hour': is_Happy_Hour})
 
 
+def reload_cassa(request):
+    global reload_cassa
+    reload_cassa = True
+    return redirect(reverse('TEST'))

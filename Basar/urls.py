@@ -41,5 +41,6 @@ urlpatterns = [
     path('Shop_Handy', Handy),
     path('happy-hour/', Happy_Hour),
     path('check_reload/', views.check_reload, name='check_reload'),
+    path('reload_cassa', reload_cassa)
 
 ]

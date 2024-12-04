@@ -88,6 +88,37 @@
     {% endfor %}
 
     <script>
+ 
+
+        // Get all checkboxes with class "ELEMENT"
+        const checkboxes = document.querySelectorAll('.ELEMENT input[type="checkbox"]');
+
+        // Add event listener to each checkbox
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', (e) => {
+                // Get the item ID from the checkbox parent element
+                const itemId = checkbox.parentNode.dataset.itemId;
+
+                // Send AJAX request to Django view
+                fetch('/update-item/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ itemId, done: false })
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Remove the item from the list if update was successful
+                    if (data.success) {
+                        checkbox.parentNode.remove();
+                    }
+                })
+                .catch((error) => console.error(error));
+            });
+        });
+
         function happyHour() {
             const formData = new FormData();
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
@@ -98,6 +129,18 @@
             })
             .catch((error) => console.error('Error:', error));
         }
+        function checkReload() {
+    fetch('/check-update/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.reload) {
+                window.location.reload();
+            }
+        });
+}
+
+// Check every second
+setInterval(checkReload, 10000);
     </script>
 </body>
 </html>
